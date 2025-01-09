@@ -31,7 +31,7 @@ export function getComponentsForCategory(
 	);
 }
 
-class WikiBuilder {
+export class WikiBuilder {
 	private modules: Record<string, unknown>;
 
 	constructor() {
@@ -73,7 +73,7 @@ class DifferentTimestampError extends Error {
 	}
 }
 
-class WikiComponentBuilder {
+export class WikiComponentBuilder {
 	private createdAtTimestamp: string | null = null; // YYYYMMDDHHMMSS (UTC)
 	private category: CategoryName | null = null;
 	private name: string | null = null;

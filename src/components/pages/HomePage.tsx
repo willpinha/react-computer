@@ -1,7 +1,10 @@
+import { Container, Stack } from "@mantine/core";
 import { wikiComponents } from "../../lib/wiki";
 
 export function HomePage() {
-	console.log(wikiComponents);
-
-	return wikiComponents[0].node;
+	return (
+		<Container>
+			<Stack>{wikiComponents.map((component) => component.node)}</Stack>
+		</Container>
+	);
 }

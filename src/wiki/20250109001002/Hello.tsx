@@ -1,3 +1,5 @@
+import { Text } from "@mantine/core";
+
 export function Hello() {
-	return "Hello";
+	return <Text>Hey hoo</Text>;
 }

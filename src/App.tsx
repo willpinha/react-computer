@@ -13,8 +13,11 @@ import "@mantine/tiptap/styles.css";
 import { MantineProvider } from "@mantine/core";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { HomePage } from "./components/pages/HomePage";
+import { wikiComponents } from "./lib/wiki";
 
 function App() {
+	console.log("hello", wikiComponents);
+
 	return (
 		<MantineProvider>
 			<BrowserRouter>
