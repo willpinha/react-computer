@@ -11,21 +11,30 @@ import "@mantine/spotlight/styles.css";
 import "@mantine/tiptap/styles.css";
 
 import { MantineProvider } from "@mantine/core";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
-import { HomePage } from "./components/pages/HomePage";
-import { wikiComponents } from "./lib/wiki";
+import { CategoryPage } from "./components/pages/CategoryPage";
+import HomePage from "./components/pages/HomePage";
+import { queryClient } from "./lib/query";
 
 function App() {
-	console.log("hello", wikiComponents);
-
 	return (
-		<MantineProvider>
-			<BrowserRouter>
-				<Routes>
-					<Route path="/" element={<HomePage />} />
-				</Routes>
-			</BrowserRouter>
-		</MantineProvider>
+		<QueryClientProvider client={queryClient}>
+			<MantineProvider>
+				<Suspense fallback={<div>Loading...</div>}>
+					<BrowserRouter>
+						<Routes>
+							<Route path="/" element={<HomePage />} />
+							<Route
+								path="/categories/:categoryName"
+								element={<CategoryPage />}
+							/>
+						</Routes>
+					</BrowserRouter>
+				</Suspense>
+			</MantineProvider>
+		</QueryClientProvider>
 	);
 }
 

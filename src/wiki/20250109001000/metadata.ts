@@ -1,6 +1,6 @@
-import { Metadata } from "../../lib/metadata";
+import { Metadata } from "../../lib/wiki";
 
 export const metadata: Metadata = {
-	category: "button",
+	category: "radio",
 	name: "Some button",
 };
