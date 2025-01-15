@@ -5,3 +5,11 @@ export const categories = [
 ] as const;
 
 export type CategoryName = (typeof categories)[number]["name"];
+
+export function isCategoryName(name?: string): name is CategoryName {
+	if (!name) {
+		return false;
+	}
+
+	return categories.some((category) => category.name === name);
+}
