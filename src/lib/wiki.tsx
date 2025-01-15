@@ -10,19 +10,55 @@ type IndexModule = () => Promise<{ Index: () => ReactNode }>;
 
 type ContentModule = () => Promise<{ default: string }>;
 
-type Wiki = {
-	[timestamp: string]: {
-		metadata: Metadata;
-		index: {
-			nodeModule: IndexModule;
-			contentModule: ContentModule;
-		};
-		files: {
-			filename: string;
-			contentModule: ContentModule;
-		}[];
+export type WikiComponent = {
+	metadata: Metadata;
+	index: {
+		nodeModule: IndexModule;
+		contentModule: ContentModule;
 	};
+	files: {
+		filename: string;
+		contentModule: ContentModule;
+	}[];
 };
+
+export type LoadedWikiComponent = {
+	metadata: Metadata;
+	index: {
+		node: ReactNode;
+		content: string;
+	};
+	files: {
+		filename: string;
+		content: string;
+	}[];
+};
+
+type Wiki = {
+	[timestamp: string]: WikiComponent;
+};
+
+export async function loadWikiComponent(
+	component: WikiComponent
+): Promise<LoadedWikiComponent> {
+	const index = {
+		node: (await component.index.nodeModule()).Index(),
+		content: (await component.index.contentModule()).default,
+	};
+
+	const files = await Promise.all(
+		component.files.map(async (file) => {
+			const content = await file.contentModule();
+			return { filename: file.filename, content: content.default };
+		})
+	);
+
+	return {
+		metadata: component.metadata,
+		index,
+		files,
+	};
+}
 
 async function buildWiki(): Promise<Wiki> {
 	const wiki: Wiki = {};

@@ -1,19 +1,17 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { wiki } from "../../lib/wiki";
+import { Container, Stack } from "@mantine/core";
+import { filterWikiByCategory } from "../../lib/wiki";
+import { WikiComponentView } from "../wiki/LoadedWikiComponent";
 
 export default function HomePage() {
-	const nodeModule = wiki["20250109001000"].index.nodeModule();
+	const filteredWiki = filterWikiByCategory("radio");
 
-	const { data } = useSuspenseQuery({
-		queryKey: ["HomePage", "20250109001000"],
-		queryFn: async () => {
-			// await 1 sec
-			await new Promise((resolve) => setTimeout(resolve, 3000));
-
-			const { Index } = await nodeModule;
-			return Index();
-		},
-	});
-
-	return data;
+	return (
+		<Container size="xl" p="md">
+			<Stack gap="xl">
+				{Object.entries(filteredWiki).map(([timestamp, component]) => (
+					<WikiComponentView key={timestamp} component={component} />
+				))}
+			</Stack>
+		</Container>
+	);
 }
