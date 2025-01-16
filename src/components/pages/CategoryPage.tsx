@@ -1,17 +1,9 @@
-import {
-	AppShell,
-	Button,
-	Container,
-	Group,
-	Stack,
-	Title,
-} from "@mantine/core";
+import { Button, Container, Group, Stack, Text, Title } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { Link, useParams } from "react-router";
 import { isCategoryName } from "../../lib/categories";
 import { filterWikiByCategory } from "../../lib/wiki";
 import { WikiComponentView } from "../wiki/LoadedWikiComponent";
-import classes from "./CategoryPage.module.css";
 
 export function CategoryPage() {
 	const { categoryName } = useParams();
@@ -23,36 +15,31 @@ export function CategoryPage() {
 	const filteredWiki = filterWikiByCategory(categoryName);
 
 	return (
-		<AppShell py="md" header={{ height: 55 }}>
-			<AppShell.Header className={classes.header} p="xs">
-				<Group h="100%" justify="space-between">
+		<Container size="xl" p="lg">
+			<Stack gap="xl">
+				<Group justify="space-between">
 					<Button
 						variant="subtle"
 						color="gray"
-						leftSection={<IconArrowLeft size={20} />}
+						leftSection={<IconArrowLeft />}
 						component={Link}
 						to="/"
 					>
-						Go back
+						See categories
 					</Button>
+					<Group gap="xs">
+						<Text fw="bold" size="sm">
+							{Object.keys(filteredWiki).length} components
+						</Text>
+					</Group>
 				</Group>
-			</AppShell.Header>
-			<AppShell.Main>
-				<Container size="xl">
-					<Stack gap="xl">
-						<Title>Button</Title>
-
-						{Object.entries(filteredWiki).map(
-							([timestamp, component]) => (
-								<WikiComponentView
-									key={timestamp}
-									component={component}
-								/>
-							)
-						)}
-					</Stack>
-				</Container>
-			</AppShell.Main>
-		</AppShell>
+				<Group>
+					<Title>{categoryName}</Title>
+				</Group>
+				{Object.entries(filteredWiki).map(([timestamp, component]) => (
+					<WikiComponentView key={timestamp} component={component} />
+				))}
+			</Stack>
+		</Container>
 	);
 }

@@ -5,9 +5,17 @@ import {
 	Group,
 	Loader,
 	Paper,
+	Stack,
+	Text,
+	ThemeIcon,
 	Title,
 } from "@mantine/core";
-import { IconArrowsMaximize, IconBug } from "@tabler/icons-react";
+import {
+	IconBrandGithub,
+	IconBrandReact,
+	IconBug,
+	IconCode,
+} from "@tabler/icons-react";
 import { ReactNode } from "react";
 import { Link } from "react-router";
 import { WikiComponent } from "../../lib/wiki";
@@ -24,11 +32,25 @@ export function WikiComponentView({ component }: WikiComponentProps) {
 	const Wrapper = ({ children }: { children: ReactNode }) => (
 		<Paper withBorder shadow="md">
 			<Group justify="space-between" p="xs">
-				<Title order={5}>{component.metadata.name}</Title>
+				<Group gap="sm">
+					<ThemeIcon variant="default" size="sm">
+						<IconBrandReact color="#04D0F4" />
+					</ThemeIcon>
+					<Stack gap={0}>
+						<Title order={5}>{component.metadata.name}</Title>
+						<Text size="xs" c="dimmed">
+							Created at 12/12/2021 13:00:32 (UTC)
+						</Text>
+					</Stack>
+				</Group>
 				<Button.Group>
 					<Button
 						variant="default"
-						leftSection={<IconBug size={20} />}
+						leftSection={
+							<ThemeIcon color="red" size="xs">
+								<IconBug size={20} />
+							</ThemeIcon>
+						}
 						size="xs"
 					>
 						Report bug
@@ -37,15 +59,32 @@ export function WikiComponentView({ component }: WikiComponentProps) {
 						component={Link}
 						to={"/opa"}
 						variant="default"
-						leftSection={<IconArrowsMaximize size={20} />}
+						leftSection={
+							<ThemeIcon color="dark" size="xs">
+								<IconBrandGithub size={20} />
+							</ThemeIcon>
+						}
 						size="xs"
 					>
-						Expand
+						GitHub
+					</Button>
+					<Button
+						component={Link}
+						to={"/opa"}
+						variant="default"
+						leftSection={
+							<ThemeIcon color="blue" size="xs">
+								<IconCode size={20} />
+							</ThemeIcon>
+						}
+						size="xs"
+					>
+						Code
 					</Button>
 				</Button.Group>
 			</Group>
 			<Divider />
-			<Box p="xs" className={classes.render}>
+			<Box p="md" className={classes.render}>
 				{children}
 			</Box>
 		</Paper>

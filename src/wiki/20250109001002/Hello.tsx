@@ -1,5 +1,13 @@
-import { Text } from "@mantine/core";
+import { Stack, TextInput } from "@mantine/core";
 
 export function Hello() {
-	return <Text>Hey hoo</Text>;
+	return (
+		<Stack maw={400}>
+			<TextInput label="Full name" />
+
+			<TextInput label="Email" />
+
+			<TextInput label="Contact" />
+		</Stack>
+	);
 }

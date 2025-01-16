@@ -10,7 +10,7 @@ import "@mantine/nprogress/styles.css";
 import "@mantine/spotlight/styles.css";
 import "@mantine/tiptap/styles.css";
 
-import { MantineProvider } from "@mantine/core";
+import { createTheme, MantineProvider } from "@mantine/core";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
@@ -18,10 +18,14 @@ import { CategoryPage } from "./components/pages/CategoryPage";
 import HomePage from "./components/pages/HomePage";
 import { queryClient } from "./lib/query";
 
+const theme = createTheme({
+	primaryColor: "green",
+});
+
 function App() {
 	return (
 		<QueryClientProvider client={queryClient}>
-			<MantineProvider>
+			<MantineProvider theme={theme}>
 				<Suspense fallback={<div>Loading...</div>}>
 					<BrowserRouter>
 						<Routes>
