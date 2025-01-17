@@ -1,4 +1,5 @@
 import {
+	ActionIcon,
 	Box,
 	Button,
 	Divider,
@@ -9,12 +10,13 @@ import {
 	Text,
 	ThemeIcon,
 	Title,
+	Tooltip,
 } from "@mantine/core";
 import {
 	IconBrandGithub,
 	IconBrandReact,
-	IconBug,
 	IconCode,
+	IconCopy,
 } from "@tabler/icons-react";
 import { ReactNode } from "react";
 import { Link } from "react-router";
@@ -34,27 +36,32 @@ export function WikiComponentView({ component }: WikiComponentProps) {
 			<Group justify="space-between" p="xs">
 				<Group gap="sm">
 					<ThemeIcon variant="default" size="sm">
-						<IconBrandReact color="#04D0F4" />
+						{loadedWikiComponent.isLoading ? (
+							<Loader size={14} color="#04D0F4" />
+						) : (
+							<IconBrandReact color="#04D0F4" />
+						)}
 					</ThemeIcon>
 					<Stack gap={0}>
 						<Title order={5}>{component.metadata.name}</Title>
-						<Text size="xs" c="dimmed">
-							Created at 12/12/2021 13:00:32 (UTC)
-						</Text>
+						<Group gap="xs">
+							<Text size="xs" c="dimmed">
+								Created at 12/12/2021 13:00:32 (UTC)
+							</Text>
+							<Tooltip label="Copy timestamp">
+								<ActionIcon
+									size="xs"
+									radius="lg"
+									variant="subtle"
+									color="gray"
+								>
+									<IconCopy />
+								</ActionIcon>
+							</Tooltip>
+						</Group>
 					</Stack>
 				</Group>
 				<Button.Group>
-					<Button
-						variant="default"
-						leftSection={
-							<ThemeIcon color="red" size="xs">
-								<IconBug size={20} />
-							</ThemeIcon>
-						}
-						size="xs"
-					>
-						Report bug
-					</Button>
 					<Button
 						component={Link}
 						to={"/opa"}
@@ -83,24 +90,20 @@ export function WikiComponentView({ component }: WikiComponentProps) {
 					</Button>
 				</Button.Group>
 			</Group>
-			<Divider />
-			<Box p="md" className={classes.render}>
-				{children}
-			</Box>
+			{loadedWikiComponent.isSuccess && (
+				<>
+					<Divider />
+					<Box p="md" className={classes.render}>
+						{children}
+					</Box>
+				</>
+			)}
 		</Paper>
 	);
-
-	if (loadedWikiComponent.isPending) {
-		return (
-			<Wrapper>
-				<Loader size="sm" />
-			</Wrapper>
-		);
-	}
 
 	if (loadedWikiComponent.isError) {
 		return <Wrapper>Error</Wrapper>;
 	}
 
-	return <Wrapper>{loadedWikiComponent.data.index.node}</Wrapper>;
+	return <Wrapper>{loadedWikiComponent.data?.index.node}</Wrapper>;
 }

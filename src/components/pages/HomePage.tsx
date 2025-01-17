@@ -1,19 +1,37 @@
-import { Container, Stack, Title } from "@mantine/core";
-import { filterWikiByCategory } from "../../lib/wiki";
-import { WikiComponentView } from "../wiki/LoadedWikiComponent";
+import {
+	Container,
+	Group,
+	Paper,
+	SimpleGrid,
+	ThemeIcon,
+	Title,
+} from "@mantine/core";
+import { Link } from "react-router";
+import { categories } from "../../lib/categories";
 
 export default function HomePage() {
-	const filteredWiki = filterWikiByCategory("radio");
-
 	return (
 		<Container size="xl" p="md">
-			<Stack gap="xl">
-				<Title>Button</Title>
+			<SimpleGrid cols={{ sm: 1, md: 2, lg: 3 }}>
+				{categories.map((category) => (
+					<Paper
+						key={category.name}
+						withBorder
+						shadow="md"
+						p="md"
+						component={Link}
+						to={`/categories/${category.name}`}
+					>
+						<Group c="gray">
+							<ThemeIcon color={category.color}>
+								{category.icon}
+							</ThemeIcon>
 
-				{Object.entries(filteredWiki).map(([timestamp, component]) => (
-					<WikiComponentView key={timestamp} component={component} />
+							<Title order={2}>{category.name}</Title>
+						</Group>
+					</Paper>
 				))}
-			</Stack>
+			</SimpleGrid>
 		</Container>
 	);
 }
