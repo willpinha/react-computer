@@ -4,15 +4,19 @@ import {
 	Button,
 	Container,
 	Group,
+	Popover,
 	Stack,
 	Text,
+	TextInput,
 	ThemeIcon,
 	Title,
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import {
 	IconArrowLeft,
 	IconBrandReact,
 	IconBug,
+	IconCalendarSearch,
 	IconInfoCircle,
 } from "@tabler/icons-react";
 import { Link, useParams } from "react-router";
@@ -25,6 +29,8 @@ type DependenciesProps = {
 };
 
 function Dependencies({ category }: DependenciesProps) {
+	const [opened, { close, open }] = useDisclosure(false);
+
 	if (!category.dependencies) {
 		return null;
 	}
@@ -33,9 +39,26 @@ function Dependencies({ category }: DependenciesProps) {
 		<Stack gap="xs">
 			<Group gap="xs">
 				<Title order={4}>Dependencies</Title>
-				<ActionIcon radius="xl" size="sm" variant="subtle" color="gray">
-					<IconInfoCircle />
-				</ActionIcon>
+				<Popover width={250} opened={opened} withArrow>
+					<Popover.Target>
+						<ActionIcon
+							radius="xl"
+							size="sm"
+							variant="subtle"
+							color="gray"
+							onMouseEnter={open}
+							onMouseLeave={close}
+						>
+							<IconInfoCircle />
+						</ActionIcon>
+					</Popover.Target>
+					<Popover.Dropdown>
+						<Text size="xs">
+							These dependencies are necessary for the components
+							to work
+						</Text>
+					</Popover.Dropdown>
+				</Popover>
 			</Group>
 			<Group>
 				{category.dependencies.map((dependency) => (
@@ -53,6 +76,32 @@ function Dependencies({ category }: DependenciesProps) {
 				))}
 			</Group>
 		</Stack>
+	);
+}
+
+function SearchTimestampInfoButton() {
+	const [opened, { open, close }] = useDisclosure();
+
+	return (
+		<Popover width={220} opened={opened} withArrow>
+			<Popover.Target>
+				<ActionIcon
+					size="sm"
+					variant="transparent"
+					color="gray"
+					onMouseEnter={open}
+					onMouseLeave={close}
+				>
+					<IconInfoCircle />
+				</ActionIcon>
+			</Popover.Target>
+			<Popover.Dropdown>
+				<Text size="xs">
+					Timestamps represent the exact day and time a component was
+					created. They are used to uniquely identify each component
+				</Text>
+			</Popover.Dropdown>
+		</Popover>
 	);
 }
 
@@ -86,17 +135,29 @@ export function CategoryPage() {
 				<Dependencies category={category} />
 				<Group justify="space-between">
 					<Title>{categoryName}</Title>
-					<Button
-						variant="default"
-						leftSection={
-							<ThemeIcon color="red" size="xs">
-								<IconBug size={20} />
-							</ThemeIcon>
-						}
-						size="xs"
-					>
-						Report bug
-					</Button>
+					<Group>
+						<TextInput
+							size="xs"
+							placeholder="Search timestamp"
+							leftSection={
+								<ThemeIcon size="xs" color="grape">
+									<IconCalendarSearch />
+								</ThemeIcon>
+							}
+							rightSection={<SearchTimestampInfoButton />}
+						/>
+						<Button
+							variant="default"
+							leftSection={
+								<ThemeIcon color="red" size="xs">
+									<IconBug size={20} />
+								</ThemeIcon>
+							}
+							size="xs"
+						>
+							Report bug
+						</Button>
+					</Group>
 				</Group>
 				{Object.entries(filteredWiki).map(([timestamp, component]) => (
 					<WikiComponentView key={timestamp} component={component} />

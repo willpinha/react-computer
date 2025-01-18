@@ -1,5 +1,4 @@
 import {
-	ActionIcon,
 	Box,
 	Button,
 	Divider,
@@ -12,15 +11,11 @@ import {
 	Title,
 	Tooltip,
 } from "@mantine/core";
-import {
-	IconBrandGithub,
-	IconBrandReact,
-	IconCode,
-	IconCopy,
-} from "@tabler/icons-react";
+import { IconBrandGithub, IconBrandReact, IconCode } from "@tabler/icons-react";
 import { ReactNode } from "react";
 import { Link } from "react-router";
 import { WikiComponent } from "../../lib/wiki";
+import { CopyIconButton } from "../button/CopyIconButton";
 import { useLoadedWikiComponent } from "../hooks/useLoadedWikiComponent";
 import classes from "./LoadedWikiComponent.module.css";
 
@@ -45,19 +40,16 @@ export function WikiComponentView({ component }: WikiComponentProps) {
 					<Stack gap={0}>
 						<Title order={5}>{component.metadata.name}</Title>
 						<Group gap="xs">
-							<Text size="xs" c="dimmed">
-								Created at 12/12/2021 13:00:32 (UTC)
-							</Text>
-							<Tooltip label="Copy timestamp">
-								<ActionIcon
+							<Tooltip label="Created at 10/12/2024 12:45:00 (UTC)">
+								<Text
 									size="xs"
-									radius="lg"
-									variant="subtle"
-									color="gray"
+									c="dimmed"
+									style={{ cursor: "help" }}
 								>
-									<IconCopy />
-								</ActionIcon>
+									Timestamp 202410124520
+								</Text>
 							</Tooltip>
+							<CopyIconButton name="timestamp" value="" />
 						</Group>
 					</Stack>
 				</Group>
