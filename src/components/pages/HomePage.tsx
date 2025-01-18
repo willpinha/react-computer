@@ -18,6 +18,7 @@ import {
 	IconBook,
 	IconBrandGithub,
 	IconHeartFilled,
+	IconKeyboard,
 	IconSearch,
 	IconSun,
 } from "@tabler/icons-react";
@@ -43,6 +44,9 @@ export default function HomePage() {
 						</ActionIcon>
 						<ActionIcon variant="default">
 							<IconBook />
+						</ActionIcon>
+						<ActionIcon variant="default">
+							<IconKeyboard />
 						</ActionIcon>
 						<ActionIcon variant="default">
 							<IconBrandGithub />
