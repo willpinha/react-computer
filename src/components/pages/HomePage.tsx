@@ -59,7 +59,7 @@ export default function HomePage() {
 					<TextInput
 						w="100%"
 						maw={420}
-						placeholder="Search components by timestamp"
+						placeholder="Search component by timestamp"
 						leftSection={
 							<ThemeIcon
 								variant="transparent"
