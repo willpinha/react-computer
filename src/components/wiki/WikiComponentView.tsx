@@ -14,20 +14,22 @@ import {
 import { IconBrandGithub, IconBrandReact, IconCode } from "@tabler/icons-react";
 import { ReactNode } from "react";
 import { Link } from "react-router";
-import { WikiComponent } from "../../lib/wiki";
+import { getWikiComponent, prettifyTimestamp } from "../../lib/wiki";
 import { CopyIconButton } from "../button/CopyIconButton";
 import { useLoadedWikiComponent } from "../hooks/useLoadedWikiComponent";
-import classes from "./LoadedWikiComponent.module.css";
+import classes from "./WikiComponentView.module.css";
 
 type WikiComponentProps = {
-	component: WikiComponent;
+	timestamp: string;
 };
 
-export function WikiComponentView({ component }: WikiComponentProps) {
+export function WikiComponentView({ timestamp }: WikiComponentProps) {
+	const component = getWikiComponent(timestamp);
+
 	const loadedWikiComponent = useLoadedWikiComponent(component);
 
 	const Wrapper = ({ children }: { children: ReactNode }) => (
-		<Paper withBorder shadow="md">
+		<Paper withBorder shadow="md" id={timestamp}>
 			<Group justify="space-between" p="xs">
 				<Group gap="sm">
 					<ThemeIcon variant="default" size="sm">
@@ -40,16 +42,19 @@ export function WikiComponentView({ component }: WikiComponentProps) {
 					<Stack gap={0}>
 						<Title order={5}>{component.metadata.name}</Title>
 						<Group gap="xs">
-							<Tooltip label="Created at 10/12/2024 12:45:00 (UTC)">
+							<Tooltip label={`Timestamp ${timestamp}`}>
 								<Text
 									size="xs"
 									c="dimmed"
 									style={{ cursor: "help" }}
 								>
-									Timestamp 202410124520
+									{prettifyTimestamp(timestamp)}
 								</Text>
 							</Tooltip>
-							<CopyIconButton name="timestamp" value="" />
+							<CopyIconButton
+								name="timestamp"
+								value={timestamp}
+							/>
 						</Group>
 					</Stack>
 				</Group>

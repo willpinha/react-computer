@@ -16,13 +16,12 @@ import {
 	IconArrowLeft,
 	IconBrandReact,
 	IconBug,
-	IconCalendarSearch,
 	IconInfoCircle,
 } from "@tabler/icons-react";
 import { Link, useParams } from "react-router";
 import { getCategory } from "../../lib/categories";
 import { filterWikiByCategory } from "../../lib/wiki";
-import { WikiComponentView } from "../wiki/LoadedWikiComponent";
+import { WikiComponentView } from "../wiki/WikiComponentView";
 
 type DependenciesProps = {
 	category: Category;
@@ -63,6 +62,7 @@ function Dependencies({ category }: DependenciesProps) {
 			<Group>
 				{category.dependencies.map((dependency) => (
 					<Badge
+						key={dependency.name}
 						variant="outline"
 						style={{ cursor: "pointer" }}
 						color="violet"
@@ -110,7 +110,7 @@ export function CategoryPage() {
 
 	const category = getCategory(categoryName);
 
-	const filteredWiki = filterWikiByCategory(categoryName);
+	const filteredWiki = filterWikiByCategory(categoryName as CategoryName);
 
 	return (
 		<Container size="xl" p="lg">
@@ -139,11 +139,6 @@ export function CategoryPage() {
 						<TextInput
 							size="xs"
 							placeholder="Search timestamp"
-							leftSection={
-								<ThemeIcon size="xs" color="grape">
-									<IconCalendarSearch />
-								</ThemeIcon>
-							}
 							rightSection={<SearchTimestampInfoButton />}
 						/>
 						<Button
@@ -159,8 +154,8 @@ export function CategoryPage() {
 						</Button>
 					</Group>
 				</Group>
-				{Object.entries(filteredWiki).map(([timestamp, component]) => (
-					<WikiComponentView key={timestamp} component={component} />
+				{Object.keys(filteredWiki).map((timestamp) => (
+					<WikiComponentView key={timestamp} timestamp={timestamp} />
 				))}
 			</Stack>
 		</Container>
