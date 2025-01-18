@@ -1,5 +1,6 @@
 import {
 	ActionIcon,
+	Anchor,
 	Badge,
 	Container,
 	Group,
@@ -14,6 +15,7 @@ import {
 	Title,
 } from "@mantine/core";
 import {
+	IconBook,
 	IconBrandGithub,
 	IconHeartFilled,
 	IconSearch,
@@ -27,13 +29,20 @@ export default function HomePage() {
 		<Container size="xl" p="md">
 			<Stack gap="xl" align="center">
 				<Group justify="space-between" w="100%">
-					<Group>
+					<Stack gap={0}>
 						<Title order={3}>React Computer</Title>
-					</Group>
+						<Text size="xs" c="dimmed">
+							Made with 🧠 by <Anchor>willpinha</Anchor> and{" "}
+							<Anchor>contributors</Anchor>
+						</Text>
+					</Stack>
 
 					<Group gap="sm">
 						<ActionIcon color="red">
 							<IconHeartFilled />
+						</ActionIcon>
+						<ActionIcon variant="default">
+							<IconBook />
 						</ActionIcon>
 						<ActionIcon variant="default">
 							<IconBrandGithub />
@@ -49,7 +58,8 @@ export default function HomePage() {
 				<Stack w="100%" align="center" gap="xs">
 					<TextInput
 						w="100%"
-						maw={400}
+						maw={420}
+						placeholder="Search components by timestamp"
 						leftSection={
 							<ThemeIcon
 								variant="transparent"
