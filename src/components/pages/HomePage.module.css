@@ -1,0 +1,12 @@
+.categoryCard {
+	background-color: light-dark(
+		var(--mantine-color-white),
+		var(--mantine-color-dark-6)
+	);
+}
+
+.searchInput {
+	[data-position="right"] {
+		width: rem(70);
+	}
+}

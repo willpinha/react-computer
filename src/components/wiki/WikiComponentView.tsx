@@ -11,7 +11,12 @@ import {
 	Title,
 	Tooltip,
 } from "@mantine/core";
-import { IconBrandGithub, IconBrandReact, IconCode } from "@tabler/icons-react";
+import {
+	IconBrandGithub,
+	IconBrandReact,
+	IconCode,
+	IconStarFilled,
+} from "@tabler/icons-react";
 import { ReactNode } from "react";
 import { Link } from "react-router";
 import { getWikiComponent, prettifyTimestamp } from "../../lib/wiki";
@@ -29,7 +34,7 @@ export function WikiComponentView({ timestamp }: WikiComponentProps) {
 	const loadedWikiComponent = useLoadedWikiComponent(component);
 
 	const Wrapper = ({ children }: { children: ReactNode }) => (
-		<Paper withBorder shadow="md" id={timestamp}>
+		<Paper withBorder shadow="sm" id={timestamp}>
 			<Group justify="space-between" p="xs">
 				<Group gap="sm">
 					<ThemeIcon variant="default" size="sm">
@@ -59,6 +64,21 @@ export function WikiComponentView({ timestamp }: WikiComponentProps) {
 					</Stack>
 				</Group>
 				<Button.Group>
+					<Button
+						variant="default"
+						size="xs"
+						leftSection={
+							<ThemeIcon
+								size="xs"
+								variant="transparent"
+								color="yellow"
+							>
+								<IconStarFilled />
+							</ThemeIcon>
+						}
+					>
+						Starred
+					</Button>
 					<Button
 						component={Link}
 						to={"/opa"}

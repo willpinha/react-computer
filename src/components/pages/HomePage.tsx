@@ -1,6 +1,5 @@
 import {
 	ActionIcon,
-	Anchor,
 	Badge,
 	Container,
 	Group,
@@ -13,6 +12,7 @@ import {
 	TextInput,
 	ThemeIcon,
 	Title,
+	Tooltip,
 } from "@mantine/core";
 import {
 	IconBook,
@@ -20,50 +20,72 @@ import {
 	IconHeartFilled,
 	IconKeyboard,
 	IconSearch,
+	IconStarsFilled,
 	IconSun,
 } from "@tabler/icons-react";
 import { Link } from "react-router";
 import { categories } from "../../lib/categories";
+import classes from "./HomePage.module.css";
 
 export default function HomePage() {
 	return (
 		<Container size="xl" p="md">
 			<Stack gap="xl" align="center">
-				<Group justify="space-between" w="100%">
-					<Stack gap={0}>
-						<Title order={3}>React Computer</Title>
-						<Text size="xs" c="dimmed">
-							Made with 🧠 by <Anchor>willpinha</Anchor> and{" "}
-							<Anchor>contributors</Anchor>
+				<Stack align="center" gap="xs">
+					<Image src="/images/logo.svg" w={150} />
+					<Title size={45}>
+						react.
+						<Text
+							span
+							inherit
+							c="blue"
+							variant="gradient"
+							gradient={{ from: "#04D0F4", to: "blue" }}
+						>
+							computer
 						</Text>
-					</Stack>
-
+					</Title>
 					<Group gap="sm">
-						<ActionIcon color="red">
-							<IconHeartFilled />
-						</ActionIcon>
-						<ActionIcon variant="default">
-							<IconBook />
-						</ActionIcon>
-						<ActionIcon variant="default">
-							<IconKeyboard />
-						</ActionIcon>
-						<ActionIcon variant="default">
-							<IconBrandGithub />
-						</ActionIcon>
-						<ActionIcon variant="default">
-							<IconSun />
-						</ActionIcon>
+						<Tooltip label="Sponsor" withArrow>
+							<ActionIcon color="red">
+								<IconHeartFilled />
+							</ActionIcon>
+						</Tooltip>
+						<Tooltip label="My starred components" withArrow>
+							<ActionIcon variant="default">
+								<ThemeIcon variant="transparent" color="yellow">
+									<IconStarsFilled />
+								</ThemeIcon>
+							</ActionIcon>
+						</Tooltip>
+						<Tooltip label="Documentation" withArrow>
+							<ActionIcon variant="default">
+								<IconBook />
+							</ActionIcon>
+						</Tooltip>
+						<Tooltip label="Keyboard shortcuts" withArrow>
+							<ActionIcon variant="default">
+								<IconKeyboard />
+							</ActionIcon>
+						</Tooltip>
+						<Tooltip label="GitHub" withArrow>
+							<ActionIcon variant="default">
+								<IconBrandGithub />
+							</ActionIcon>
+						</Tooltip>
+						<Tooltip label="Light theme" withArrow>
+							<ActionIcon variant="default">
+								<IconSun />
+							</ActionIcon>
+						</Tooltip>
 					</Group>
-				</Group>
-
-				<Image src="/images/logo.svg" w={150} />
+				</Stack>
 
 				<Stack w="100%" align="center" gap="xs">
 					<TextInput
 						w="100%"
 						maw={420}
-						placeholder="Search component by timestamp"
+						placeholder="Search categories and components"
 						leftSection={
 							<ThemeIcon
 								variant="transparent"
@@ -73,7 +95,8 @@ export default function HomePage() {
 								<IconSearch />
 							</ThemeIcon>
 						}
-						rightSection={<Kbd size="sm">Alt + S</Kbd>}
+						rightSection={<Kbd size="xs">Alt + S</Kbd>}
+						className={classes.searchInput}
 					/>
 					<Text size="sm">
 						<Badge component="span" size="xs" variant="outline">
@@ -91,8 +114,9 @@ export default function HomePage() {
 					{categories.map((category) => (
 						<Paper
 							key={category.name}
+							className={classes.categoryCard}
 							withBorder
-							shadow="md"
+							shadow="sm"
 							p="md"
 							component={Link}
 							to={`/categories/${category.name}`}
