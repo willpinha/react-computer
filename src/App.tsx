@@ -11,32 +11,81 @@ import "@mantine/spotlight/styles.css";
 import "@mantine/tiptap/styles.css";
 
 import { createTheme, MantineProvider } from "@mantine/core";
+import {
+	Spotlight,
+	SpotlightActionData,
+	SpotlightActionGroupData,
+} from "@mantine/spotlight";
+import { IconSearch } from "@tabler/icons-react";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { Suspense } from "react";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router";
+import { useKeyboardShortcuts } from "./components/hooks/useKeyboardShortcuts";
 import { CategoryPage } from "./components/pages/CategoryPage";
 import HomePage from "./components/pages/HomePage";
+import { categories } from "./lib/categories";
 import { queryClient } from "./lib/query";
+import { wiki } from "./lib/wiki";
 
 const theme = createTheme({
 	primaryColor: "green",
 });
 
+function SearchSpotlight() {
+	const navigate = useNavigate();
+
+	const actions: (SpotlightActionGroupData | SpotlightActionData)[] = [
+		{
+			group: "Categories",
+			actions: categories.map((category) => ({
+				id: category.name,
+				label: category.name,
+				leftSection: category.icon,
+				onClick: () => navigate(`/categories/${category.name}`),
+			})),
+		},
+		{
+			group: "Components",
+			actions: Object.entries(wiki).map(([timestamp, component]) => ({
+				id: timestamp,
+				label: component.metadata.name,
+				description: `Timestamp ${timestamp}`,
+				onClick: () => navigate(`/components/${timestamp}`),
+			})),
+		},
+	];
+
+	return (
+		<>
+			<Spotlight
+				actions={actions}
+				nothingFound="Nothing found..."
+				highlightQuery
+				searchProps={{
+					leftSection: <IconSearch />,
+					placeholder: "Search categories and components",
+				}}
+			/>
+		</>
+	);
+}
+
 function App() {
+	useKeyboardShortcuts();
+
 	return (
 		<QueryClientProvider client={queryClient}>
 			<MantineProvider theme={theme} defaultColorScheme="dark">
-				<Suspense fallback={<div>Loading...</div>}>
-					<BrowserRouter>
-						<Routes>
-							<Route path="/" element={<HomePage />} />
-							<Route
-								path="/categories/:categoryName"
-								element={<CategoryPage />}
-							/>
-						</Routes>
-					</BrowserRouter>
-				</Suspense>
+				<BrowserRouter>
+					<Routes>
+						<Route path="/" element={<HomePage />} />
+						<Route
+							path="/categories/:categoryName"
+							element={<CategoryPage />}
+						/>
+					</Routes>
+
+					<SearchSpotlight />
+				</BrowserRouter>
 			</MantineProvider>
 		</QueryClientProvider>
 	);

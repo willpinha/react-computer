@@ -14,12 +14,7 @@ import {
 	Tooltip,
 	UnstyledButton,
 } from "@mantine/core";
-import {
-	spotlight,
-	Spotlight,
-	SpotlightActionData,
-	SpotlightActionGroupData,
-} from "@mantine/spotlight";
+import { spotlight } from "@mantine/spotlight";
 import {
 	IconBook,
 	IconBrandGithub,
@@ -29,64 +24,28 @@ import {
 	IconStarsFilled,
 	IconSun,
 } from "@tabler/icons-react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { categories } from "../../lib/categories";
-import { wiki } from "../../lib/wiki";
 import classes from "./HomePage.module.css";
 
 function SearchInput() {
-	const navigate = useNavigate();
-
-	const actions: (SpotlightActionGroupData | SpotlightActionData)[] = [
-		{
-			group: "Categories",
-			actions: categories.map((category) => ({
-				id: category.name,
-				label: category.name,
-				leftSection: category.icon,
-				onClick: () => navigate(`/categories/${category.name}`),
-			})),
-		},
-		{
-			group: "Components",
-			actions: Object.entries(wiki).map(([timestamp, component]) => ({
-				id: timestamp,
-				label: component.metadata.name,
-				description: `Timestamp ${timestamp}`,
-				onClick: () => navigate(`/components/${timestamp}`),
-			})),
-		},
-	];
-
 	return (
-		<>
-			<UnstyledButton
-				className={classes.searchInput}
-				onClick={spotlight.open}
-			>
-				<Group justify="space-between" wrap="nowrap">
-					<Group gap="sm" wrap="nowrap">
-						<ThemeIcon variant="transparent" color="gray" size="xs">
-							<IconSearch />
-						</ThemeIcon>
-						<Text className={classes.placeholder} lineClamp={1}>
-							Search categories and components
-						</Text>
-					</Group>
-					<Kbd size="xs">Alt+S</Kbd>
+		<UnstyledButton
+			className={classes.searchInput}
+			onClick={spotlight.open}
+		>
+			<Group justify="space-between" wrap="nowrap">
+				<Group gap="sm" wrap="nowrap">
+					<ThemeIcon variant="transparent" color="gray" size="xs">
+						<IconSearch />
+					</ThemeIcon>
+					<Text className={classes.placeholder} lineClamp={1}>
+						Search categories and components
+					</Text>
 				</Group>
-			</UnstyledButton>
-
-			<Spotlight
-				actions={actions}
-				nothingFound="Nothing found..."
-				highlightQuery
-				searchProps={{
-					leftSection: <IconSearch />,
-					placeholder: "Search categories and components",
-				}}
-			/>
-		</>
+				<Kbd size="xs">Alt+S</Kbd>
+			</Group>
+		</UnstyledButton>
 	);
 }
 

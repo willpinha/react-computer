@@ -7,7 +7,6 @@ import {
 	Popover,
 	Stack,
 	Text,
-	TextInput,
 	ThemeIcon,
 	Title,
 } from "@mantine/core";
@@ -79,32 +78,6 @@ function Dependencies({ category }: DependenciesProps) {
 	);
 }
 
-function SearchTimestampInfoButton() {
-	const [opened, { open, close }] = useDisclosure();
-
-	return (
-		<Popover width={220} opened={opened} withArrow>
-			<Popover.Target>
-				<ActionIcon
-					size="sm"
-					variant="transparent"
-					color="gray"
-					onMouseEnter={open}
-					onMouseLeave={close}
-				>
-					<IconInfoCircle />
-				</ActionIcon>
-			</Popover.Target>
-			<Popover.Dropdown>
-				<Text size="xs">
-					Timestamps represent the exact day and time a component was
-					created. They are used to uniquely identify each component
-				</Text>
-			</Popover.Dropdown>
-		</Popover>
-	);
-}
-
 export function CategoryPage() {
 	const { categoryName } = useParams();
 
@@ -136,11 +109,6 @@ export function CategoryPage() {
 				<Group justify="space-between">
 					<Title>{categoryName}</Title>
 					<Group>
-						<TextInput
-							size="xs"
-							placeholder="Search timestamp"
-							rightSection={<SearchTimestampInfoButton />}
-						/>
 						<Button
 							variant="default"
 							leftSection={
