@@ -9,11 +9,12 @@ import {
 	SimpleGrid,
 	Stack,
 	Text,
-	TextInput,
 	ThemeIcon,
 	Title,
 	Tooltip,
+	UnstyledButton,
 } from "@mantine/core";
+import { spotlight, Spotlight } from "@mantine/spotlight";
 import {
 	IconBook,
 	IconBrandGithub,
@@ -26,6 +27,30 @@ import {
 import { Link } from "react-router";
 import { categories } from "../../lib/categories";
 import classes from "./HomePage.module.css";
+
+function SearchInput() {
+	return (
+		<>
+			<UnstyledButton
+				className={classes.searchInput}
+				onClick={spotlight.open}
+			>
+				<Group justify="space-between">
+					<Group gap="sm">
+						<ThemeIcon variant="transparent" color="gray" size="xs">
+							<IconSearch />
+						</ThemeIcon>
+						<Text className={classes.placeholder}>
+							Search categories and components
+						</Text>
+					</Group>
+					<Kbd size="xs">Alt + S</Kbd>
+				</Group>
+			</UnstyledButton>
+			<Spotlight actions={[]} />
+		</>
+	);
+}
 
 export default function HomePage() {
 	return (
@@ -82,22 +107,7 @@ export default function HomePage() {
 				</Stack>
 
 				<Stack w="100%" align="center" gap="xs">
-					<TextInput
-						w="100%"
-						maw={420}
-						placeholder="Search categories and components"
-						leftSection={
-							<ThemeIcon
-								variant="transparent"
-								color="gray"
-								size="sm"
-							>
-								<IconSearch />
-							</ThemeIcon>
-						}
-						rightSection={<Kbd size="xs">Alt + S</Kbd>}
-						className={classes.searchInput}
-					/>
+					<SearchInput />
 					<Text size="sm">
 						<Badge component="span" size="xs" variant="outline">
 							147
