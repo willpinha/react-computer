@@ -130,7 +130,7 @@ export default function HomePage() {
 						</Text>
 					</Title>
 					<Group gap="sm">
-						<Tooltip label="Sponsor" withArrow>
+						<Tooltip label="Sponsor this project" withArrow>
 							<ActionIcon color="red">
 								<IconHeartFilled />
 							</ActionIcon>

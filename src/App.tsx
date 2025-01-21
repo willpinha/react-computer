@@ -49,7 +49,10 @@ function SearchSpotlight() {
 				id: timestamp,
 				label: component.metadata.name,
 				description: `Timestamp ${timestamp}`,
-				onClick: () => navigate(`/components/${timestamp}`),
+				onClick: () =>
+					navigate(
+						`/categories/${component.metadata.category}#${timestamp}`
+					),
 			})),
 		},
 	];
