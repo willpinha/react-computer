@@ -3,8 +3,10 @@ import {
 	Alert,
 	Anchor,
 	Button,
+	CopyButton,
 	Drawer,
 	Group,
+	JsonInput,
 	Kbd,
 	Modal,
 	Paper,
@@ -12,14 +14,24 @@ import {
 	Table,
 	Text,
 	Title,
+	Tooltip,
 	TypographyStylesProvider,
 	useMantineColorScheme,
 } from "@mantine/core";
 import { useDisclosure, useHotkeys } from "@mantine/hooks";
 import { spotlight } from "@mantine/spotlight";
-import { IconMoodNeutral, IconStarsOff, IconX } from "@tabler/icons-react";
-import { createContext, ReactNode, useContext } from "react";
+import {
+	IconCheck,
+	IconDownload,
+	IconFocus,
+	IconMoodNeutral,
+	IconPackageImport,
+	IconStarsOff,
+	IconX,
+} from "@tabler/icons-react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import { Link } from "react-router";
+import { z } from "zod";
 import sharedClasses from "../../css/shared.module.css";
 import { wiki, WikiComponent } from "../../lib/wiki";
 import { useStarredComponents } from "./useStarredComponents";
@@ -195,6 +207,104 @@ function buildGroupedStarred(starred: string[]): GroupedStarred {
 	return grouped;
 }
 
+function ImportStarredComponentsButton() {
+	const [opened, { open, close }] = useDisclosure();
+	const { importStarred } = useStarredComponents();
+
+	const [error, setError] = useState<boolean>(false);
+	const [value, setValue] = useState("");
+
+	const handleImport = async () => {
+		try {
+			const parsed = JSON.parse(value);
+
+			await z.array(z.string()).parseAsync(parsed);
+
+			importStarred(parsed);
+			close();
+		} catch (error) {
+			setError(true);
+		}
+	};
+
+	return (
+		<>
+			<Tooltip label="Import">
+				<ActionIcon
+					size="sm"
+					variant="transparent"
+					color="gray"
+					onClick={() => {
+						setError(false);
+						setValue("");
+						open();
+					}}
+				>
+					<IconPackageImport />
+				</ActionIcon>
+			</Tooltip>
+
+			<Modal
+				opened={opened}
+				onClose={close}
+				title="Import starred components"
+			>
+				<Stack>
+					<Alert
+						color="violet"
+						title="Keep in mind"
+						icon={<IconFocus />}
+					>
+						This import will override your current starred
+						components
+					</Alert>
+					<JsonInput
+						description="Paste here your saved starred components"
+						placeholder={'Ex: ["20210901120000", "20210901120001"]'}
+						value={value}
+						onChange={setValue}
+						error={error}
+						formatOnBlur
+						autosize
+					/>
+
+					<Group justify="end">
+						<Button
+							size="xs"
+							color="violet"
+							leftSection={<IconPackageImport size={20} />}
+							onClick={handleImport}
+						>
+							Import
+						</Button>
+					</Group>
+				</Stack>
+			</Modal>
+		</>
+	);
+}
+
+function SaveStarredComponentsButton() {
+	const { starred } = useStarredComponents();
+
+	return (
+		<CopyButton value={JSON.stringify(starred)}>
+			{({ copied, copy }) => (
+				<Tooltip label={copied ? "Saved to clipboard!" : "Save"}>
+					<ActionIcon
+						size="sm"
+						variant="transparent"
+						color="gray"
+						onClick={copy}
+					>
+						{copied ? <IconCheck /> : <IconDownload />}
+					</ActionIcon>
+				</Tooltip>
+			)}
+		</CopyButton>
+	);
+}
+
 function StarredComponentsDrawer() {
 	useHotkeys([["alt+s", () => open()]]);
 
@@ -214,7 +324,13 @@ function StarredComponentsDrawer() {
 			position="right"
 		>
 			<Stack gap="xl">
-				<Text c="dimmed">{starred.length} component(s)</Text>
+				<Group justify="space-between">
+					<Text c="dimmed">{starred.length} component(s)</Text>
+					<Group>
+						<ImportStarredComponentsButton />
+						<SaveStarredComponentsButton />
+					</Group>
+				</Group>
 				{starred.length === 0 && (
 					<Alert
 						color="gray"

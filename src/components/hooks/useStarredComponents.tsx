@@ -1,4 +1,5 @@
 import { useLocalStorage } from "@mantine/hooks";
+import { wiki } from "../../lib/wiki";
 
 export function useStarredComponents() {
 	const [starred, setStarred] = useLocalStorage<string[]>({
@@ -7,15 +8,25 @@ export function useStarredComponents() {
 		defaultValue: [],
 	});
 
+	const onlyValidStarred = getOnlyValidStarred();
+
+	function getOnlyValidStarred(timestamps = starred) {
+		return Array.from(
+			new Set(
+				timestamps.filter((timestamp) => wiki[timestamp] !== undefined)
+			)
+		);
+	}
+
 	function isStarred(timestamp: string) {
-		return starred.includes(timestamp);
+		return onlyValidStarred.includes(timestamp);
 	}
 
 	function toggleStarred(timestamp: string) {
 		if (isStarred(timestamp)) {
-			setStarred(starred.filter((item) => item !== timestamp));
+			setStarred(onlyValidStarred.filter((item) => item !== timestamp));
 		} else {
-			setStarred([...starred, timestamp]);
+			setStarred([...onlyValidStarred, timestamp]);
 		}
 	}
 
@@ -23,5 +34,15 @@ export function useStarredComponents() {
 		setStarred([]);
 	}
 
-	return { starred, isStarred, toggleStarred, removeAllStarred };
+	function importStarred(timestamps: string[]) {
+		setStarred(getOnlyValidStarred(timestamps));
+	}
+
+	return {
+		starred: onlyValidStarred,
+		isStarred,
+		importStarred,
+		toggleStarred,
+		removeAllStarred,
+	};
 }

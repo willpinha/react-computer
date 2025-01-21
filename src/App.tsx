@@ -11,6 +11,7 @@ import "@mantine/spotlight/styles.css";
 import "@mantine/tiptap/styles.css";
 
 import { createTheme, MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import {
 	Spotlight,
 	SpotlightActionData,
@@ -89,6 +90,7 @@ function App() {
 						<SearchSpotlight />
 					</KeyboardShortcutsProvider>
 				</BrowserRouter>
+				<Notifications />
 			</MantineProvider>
 		</QueryClientProvider>
 	);
