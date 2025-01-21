@@ -13,6 +13,7 @@ import {
 	Title,
 	Tooltip,
 	UnstyledButton,
+	useMantineColorScheme,
 } from "@mantine/core";
 import { spotlight } from "@mantine/spotlight";
 import {
@@ -20,6 +21,7 @@ import {
 	IconBrandGithub,
 	IconHeartFilled,
 	IconKeyboard,
+	IconMoon,
 	IconSearch,
 	IconStarsFilled,
 	IconSun,
@@ -94,6 +96,21 @@ function StarredComponentsButton() {
 	);
 }
 
+function ThemeButton() {
+	const { toggleColorScheme, colorScheme } = useMantineColorScheme();
+
+	return (
+		<Tooltip
+			label={colorScheme === "dark" ? "Light theme" : "Dark theme"}
+			withArrow
+		>
+			<ActionIcon variant="default" onClick={toggleColorScheme}>
+				{colorScheme === "dark" ? <IconSun /> : <IconMoon />}
+			</ActionIcon>
+		</Tooltip>
+	);
+}
+
 export default function HomePage() {
 	return (
 		<Container size="xl" p="md">
@@ -130,11 +147,7 @@ export default function HomePage() {
 								<IconBrandGithub />
 							</ActionIcon>
 						</Tooltip>
-						<Tooltip label="Light theme" withArrow>
-							<ActionIcon variant="default">
-								<IconSun />
-							</ActionIcon>
-						</Tooltip>
+						<ThemeButton />
 					</Group>
 				</Stack>
 

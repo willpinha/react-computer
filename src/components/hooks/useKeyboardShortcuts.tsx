@@ -5,6 +5,7 @@ import {
 	Stack,
 	Text,
 	TypographyStylesProvider,
+	useMantineColorScheme,
 } from "@mantine/core";
 import { useDisclosure, useHotkeys } from "@mantine/hooks";
 import { spotlight } from "@mantine/spotlight";
@@ -90,7 +91,12 @@ export function KeyboardShortcutsProvider({
 }: {
 	children: ReactNode;
 }) {
-	useHotkeys([["alt+f", () => spotlight.open()]]);
+	const { toggleColorScheme } = useMantineColorScheme();
+
+	useHotkeys([
+		["alt+f", () => spotlight.open()],
+		["alt+t", () => toggleColorScheme()],
+	]);
 
 	return (
 		<KeyboardShortcutsContext.Provider
