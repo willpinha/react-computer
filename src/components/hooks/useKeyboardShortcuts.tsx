@@ -225,7 +225,7 @@ function StarredComponentsDrawer() {
 					</Alert>
 				)}
 				{Object.entries(groupedStarred).map(([category, subwiki]) => (
-					<Stack gap="xs">
+					<Stack gap="xs" key={category}>
 						<Title order={5}>{category}</Title>
 						<Paper
 							withBorder
@@ -242,7 +242,7 @@ function StarredComponentsDrawer() {
 								<Table.Tbody>
 									{Object.entries(subwiki).map(
 										([timestamp, component]) => (
-											<Table.Tr>
+											<Table.Tr key={timestamp}>
 												<Table.Td>
 													<Anchor
 														component={Link}
