@@ -23,6 +23,7 @@ import {
 } from "@tabler/icons-react";
 import { createContext, ReactNode, useContext } from "react";
 import { Link } from "react-router";
+import { wiki } from "../../lib/wiki";
 import { useStarredComponents } from "./useStarredComponents";
 
 type Disclosure = ReturnType<typeof useDisclosure>;
@@ -87,6 +88,12 @@ function DocumentationModal() {
 }
 
 function StarredComponentLink({ timestamp }: { timestamp: string }) {
+	const component = wiki[timestamp];
+
+	if (!component) {
+		return null;
+	}
+
 	const { toggleStarred } = useStarredComponents();
 	const { ref, hovered } = useHover();
 
@@ -100,9 +107,17 @@ function StarredComponentLink({ timestamp }: { timestamp: string }) {
 			>
 				{hovered ? <IconStarOff /> : <IconStarFilled />}
 			</ActionIcon>
-			<Anchor component={Link} to={`/components/${timestamp}`}>
-				{timestamp}
-			</Anchor>
+			<Stack gap={0}>
+				<Anchor
+					component={Link}
+					to={`/categories/${component.metadata.category}#${timestamp}`}
+				>
+					{component.metadata.name}
+				</Anchor>
+				<Text size="xs" c="dimmed">
+					Timestamp {timestamp}
+				</Text>
+			</Stack>
 		</Group>
 	);
 }

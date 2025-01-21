@@ -11,6 +11,7 @@ import {
 	Title,
 	Tooltip,
 } from "@mantine/core";
+import { useScrollIntoView } from "@mantine/hooks";
 import {
 	IconBrandGithub,
 	IconBrandReact,
@@ -18,8 +19,8 @@ import {
 	IconStar,
 	IconStarFilled,
 } from "@tabler/icons-react";
-import { ReactNode } from "react";
-import { Link } from "react-router";
+import { ReactNode, useEffect } from "react";
+import { Link, useLocation } from "react-router";
 import { getWikiComponent, prettifyTimestamp } from "../../lib/wiki";
 import { CopyIconButton } from "../button/CopyIconButton";
 import { useLoadedWikiComponent } from "../hooks/useLoadedWikiComponent";
@@ -33,14 +34,24 @@ type WikiComponentProps = {
 export function WikiComponentView({ timestamp }: WikiComponentProps) {
 	const component = getWikiComponent(timestamp);
 
+	const location = useLocation();
+
 	const loadedWikiComponent = useLoadedWikiComponent(component);
 
+	const { scrollIntoView, targetRef } = useScrollIntoView();
+
 	const { isStarred, toggleStarred } = useStarredComponents();
+
+	useEffect(() => {
+		if (location.hash === `#${timestamp}`) {
+			scrollIntoView();
+		}
+	}, [location.hash]);
 
 	const starred = isStarred(timestamp);
 
 	const Wrapper = ({ children }: { children: ReactNode }) => (
-		<Paper withBorder shadow="sm" id={timestamp}>
+		<Paper withBorder shadow="sm" id={timestamp} ref={targetRef}>
 			<Group justify="space-between" p="xs">
 				<Group gap="sm">
 					<ThemeIcon variant="default" size="sm">
@@ -88,7 +99,8 @@ export function WikiComponentView({ timestamp }: WikiComponentProps) {
 					</Button>
 					<Button
 						component={Link}
-						to={"/opa"}
+						to={`https://github.com/willpinha/react-computer/tree/master/src/wiki/${timestamp}`}
+						target="_blank"
 						variant="default"
 						leftSection={
 							<ThemeIcon color="dark" size="xs">
