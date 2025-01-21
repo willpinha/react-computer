@@ -81,7 +81,89 @@ function DocumentationModal() {
 		<Modal opened={opened} onClose={close} title="Documentation">
 			<TypographyStylesProvider>
 				<h1>React Computer</h1>
-				<p>React Computer is something else</p>
+				<p>
+					React Computer is a huge collection of components made with
+					React so you can be inspired by your user interface
+					creations. It contains components grouped by categories
+				</p>
+				<p>
+					This project was born with a single objective, which is to
+					be the biggest collection of React components. To achieve
+					this goal, it is open to contributions from any developer in
+					the world. I believe every React developer has something
+					unique to add to this project
+				</p>
+				<h2>About Mantine</h2>
+				<p>
+					Under the hood, React Computer uses{" "}
+					<a href="https://mantine.dev/">Mantine</a> to create its
+					components. This choice was made because I consider Mantine
+					to be the most complete and batteries-included component
+					library for React
+				</p>
+				<p>
+					Note that you do not need to use Mantine in your
+					applications to benefit from React Computer. This project
+					can and should be used as a source of inspiration for design
+					and features
+				</p>
+				<h2>Getting started</h2>
+				<h3>Installing the dependencies</h3>
+				<p>
+					If you want to use React Computer code directly in your
+					applications, you need to install both Mantine and Tabler
+					Icons
+				</p>
+				<ul>
+					<li>
+						<a href="https://mantine.dev/getting-started">
+							Install Mantine
+						</a>
+					</li>
+					<li>
+						<a href="https://tabler.io/docs/icons/libraries/react">
+							Install Tabler Icons
+						</a>
+					</li>
+				</ul>
+				<p>
+					In addition to these mandatory dependencies, some categories
+					may also contain extra dependencies that must also be
+					installed to use the components in that category. These
+					extra dependencies are shown on the category pages
+				</p>
+				<h3>Understanding timestamps</h3>
+				<p>
+					A timestamp is a unique identifier for a component in React
+					Computer. Timestamps are automatically generated and contain
+					the format <code>YYYYMMDDHHMMSS</code>, representing the
+					component creation time in UTC
+				</p>
+				<p>
+					You can search for components using their timestamps. They
+					are also used to manage your starred components and identify
+					components when reporting bugs
+				</p>
+				<h2>Contributing</h2>
+				<p>
+					Contributions are open and welcome for all React developers
+					in the world! Thank you very much for making this project
+					what it is today
+				</p>
+				<p>
+					See the{" "}
+					<a href="https://github.com/willpinha/react-computer/blob/master/CONTRIBUTING.md">
+						contribution guide
+					</a>{" "}
+					if you want to create your own components or report bugs
+				</p>
+				<h2>License</h2>
+				<p>
+					This project uses the{" "}
+					<a href="https://github.com/willpinha/react-computer?tab=MIT-1-ov-file#readme">
+						MIT license
+					</a>
+				</p>
 			</TypographyStylesProvider>
 		</Modal>
 	);
