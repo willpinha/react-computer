@@ -26,6 +26,7 @@ import {
 } from "@tabler/icons-react";
 import { Link } from "react-router";
 import { categories } from "../../lib/categories";
+import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
 import classes from "./HomePage.module.css";
 
 function SearchInput() {
@@ -40,12 +41,56 @@ function SearchInput() {
 						<IconSearch />
 					</ThemeIcon>
 					<Text className={classes.placeholder} lineClamp={1}>
-						Search categories and components
+						Find categories and components
 					</Text>
 				</Group>
-				<Kbd size="xs">Alt+S</Kbd>
+				<Kbd size="xs">Alt+F</Kbd>
 			</Group>
 		</UnstyledButton>
+	);
+}
+
+function KeyboardShortcutsButton() {
+	const {
+		keyboardShortcutsDisclosure: [_, { open }],
+	} = useKeyboardShortcuts();
+
+	return (
+		<Tooltip label="Keyboard shortcuts" withArrow>
+			<ActionIcon variant="default" onClick={open}>
+				<IconKeyboard />
+			</ActionIcon>
+		</Tooltip>
+	);
+}
+
+function DocumentationButton() {
+	const {
+		documentationDisclosure: [_, { open }],
+	} = useKeyboardShortcuts();
+
+	return (
+		<Tooltip label="Documentation" withArrow>
+			<ActionIcon variant="default" onClick={open}>
+				<IconBook />
+			</ActionIcon>
+		</Tooltip>
+	);
+}
+
+function StarredComponentsButton() {
+	const {
+		starredComponentsDisclosure: [_, { open }],
+	} = useKeyboardShortcuts();
+
+	return (
+		<Tooltip label="My starred components" withArrow>
+			<ActionIcon variant="default" onClick={open}>
+				<ThemeIcon variant="transparent" color="yellow">
+					<IconStarsFilled />
+				</ThemeIcon>
+			</ActionIcon>
+		</Tooltip>
 	);
 }
 
@@ -73,25 +118,15 @@ export default function HomePage() {
 								<IconHeartFilled />
 							</ActionIcon>
 						</Tooltip>
-						<Tooltip label="My starred components" withArrow>
-							<ActionIcon variant="default">
-								<ThemeIcon variant="transparent" color="yellow">
-									<IconStarsFilled />
-								</ThemeIcon>
-							</ActionIcon>
-						</Tooltip>
-						<Tooltip label="Documentation" withArrow>
-							<ActionIcon variant="default">
-								<IconBook />
-							</ActionIcon>
-						</Tooltip>
-						<Tooltip label="Keyboard shortcuts" withArrow>
-							<ActionIcon variant="default">
-								<IconKeyboard />
-							</ActionIcon>
-						</Tooltip>
+						<StarredComponentsButton />
+						<DocumentationButton />
+						<KeyboardShortcutsButton />
 						<Tooltip label="GitHub" withArrow>
-							<ActionIcon variant="default">
+							<ActionIcon
+								variant="default"
+								component={Link}
+								to="https://github.com/willpinha/react-computer"
+							>
 								<IconBrandGithub />
 							</ActionIcon>
 						</Tooltip>
