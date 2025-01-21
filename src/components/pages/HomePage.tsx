@@ -28,6 +28,7 @@ import {
 } from "@tabler/icons-react";
 import { Link } from "react-router";
 import { categories } from "../../lib/categories";
+import { wiki } from "../../lib/wiki";
 import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
 import classes from "./HomePage.module.css";
 
@@ -155,11 +156,11 @@ export default function HomePage() {
 					<SearchInput />
 					<Text size="sm">
 						<Badge component="span" size="xs" variant="outline">
-							147
+							{Object.keys(wiki).length}
 						</Badge>{" "}
 						components in{" "}
 						<Badge component="span" size="xs" variant="outline">
-							12
+							{categories.length}
 						</Badge>{" "}
 						categories
 					</Text>
