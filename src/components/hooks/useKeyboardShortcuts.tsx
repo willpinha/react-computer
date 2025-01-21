@@ -1,4 +1,10 @@
 import {
+	ActionIcon,
+	Alert,
+	Anchor,
+	Button,
+	Divider,
+	Drawer,
 	Group,
 	Kbd,
 	Modal,
@@ -7,9 +13,17 @@ import {
 	TypographyStylesProvider,
 	useMantineColorScheme,
 } from "@mantine/core";
-import { useDisclosure, useHotkeys } from "@mantine/hooks";
+import { useDisclosure, useHotkeys, useHover } from "@mantine/hooks";
 import { spotlight } from "@mantine/spotlight";
+import {
+	IconInfoCircle,
+	IconStarFilled,
+	IconStarOff,
+	IconStarsOff,
+} from "@tabler/icons-react";
 import { createContext, ReactNode, useContext } from "react";
+import { Link } from "react-router";
+import { useStarredComponents } from "./useStarredComponents";
 
 type Disclosure = ReturnType<typeof useDisclosure>;
 
@@ -72,17 +86,69 @@ function DocumentationModal() {
 	);
 }
 
-function StarredComponentsModal() {
+function StarredComponentLink({ timestamp }: { timestamp: string }) {
+	const { toggleStarred } = useStarredComponents();
+	const { ref, hovered } = useHover();
+
+	return (
+		<Group>
+			<ActionIcon
+				ref={ref}
+				variant="transparent"
+				color={hovered ? "gray" : "yellow"}
+				onClick={() => toggleStarred(timestamp)}
+			>
+				{hovered ? <IconStarOff /> : <IconStarFilled />}
+			</ActionIcon>
+			<Anchor component={Link} to={`/components/${timestamp}`}>
+				{timestamp}
+			</Anchor>
+		</Group>
+	);
+}
+
+function StarredComponentsDrawer() {
 	useHotkeys([["alt+s", () => open()]]);
 
 	const {
 		starredComponentsDisclosure: [opened, { open, close }],
 	} = useKeyboardShortcuts();
 
+	const { starred, removeAllStarred } = useStarredComponents();
+
 	return (
-		<Modal opened={opened} onClose={close} title="My starred components">
-			<Text>Starred components go here</Text>
-		</Modal>
+		<Drawer
+			opened={opened}
+			onClose={close}
+			title="My starred components"
+			position="right"
+		>
+			<Stack>
+				<Alert color="cyan" title="Important" icon={<IconInfoCircle />}>
+					Your starred components are saved to local storage and do
+					not persist outside of that browser
+				</Alert>
+				<Divider />
+				<Text>{starred.length} component(s)</Text>
+				{starred.map((timestamp) => (
+					<StarredComponentLink
+						key={timestamp}
+						timestamp={timestamp}
+					/>
+				))}
+				<Divider />
+				<Group justify="end">
+					<Button
+						color="red"
+						size="xs"
+						leftSection={<IconStarsOff size={16} />}
+						onClick={removeAllStarred}
+					>
+						Unstar all
+					</Button>
+				</Group>
+			</Stack>
+		</Drawer>
 	);
 }
 
@@ -109,7 +175,7 @@ export function KeyboardShortcutsProvider({
 		>
 			<KeyboardShortcutsModal />
 			<DocumentationModal />
-			<StarredComponentsModal />
+			<StarredComponentsDrawer />
 
 			{children}
 		</KeyboardShortcutsContext.Provider>

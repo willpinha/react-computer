@@ -15,6 +15,7 @@ import {
 	IconBrandGithub,
 	IconBrandReact,
 	IconCode,
+	IconStar,
 	IconStarFilled,
 } from "@tabler/icons-react";
 import { ReactNode } from "react";
@@ -22,6 +23,7 @@ import { Link } from "react-router";
 import { getWikiComponent, prettifyTimestamp } from "../../lib/wiki";
 import { CopyIconButton } from "../button/CopyIconButton";
 import { useLoadedWikiComponent } from "../hooks/useLoadedWikiComponent";
+import { useStarredComponents } from "../hooks/useStarredComponents";
 import classes from "./WikiComponentView.module.css";
 
 type WikiComponentProps = {
@@ -32,6 +34,10 @@ export function WikiComponentView({ timestamp }: WikiComponentProps) {
 	const component = getWikiComponent(timestamp);
 
 	const loadedWikiComponent = useLoadedWikiComponent(component);
+
+	const { isStarred, toggleStarred } = useStarredComponents();
+
+	const starred = isStarred(timestamp);
 
 	const Wrapper = ({ children }: { children: ReactNode }) => (
 		<Paper withBorder shadow="sm" id={timestamp}>
@@ -71,13 +77,14 @@ export function WikiComponentView({ timestamp }: WikiComponentProps) {
 							<ThemeIcon
 								size="xs"
 								variant="transparent"
-								color="yellow"
+								color={starred ? "yellow" : "gray"}
 							>
-								<IconStarFilled />
+								{starred ? <IconStarFilled /> : <IconStar />}
 							</ThemeIcon>
 						}
+						onClick={() => toggleStarred(timestamp)}
 					>
-						Starred
+						{starred ? "Starred" : "Star"}
 					</Button>
 					<Button
 						component={Link}
