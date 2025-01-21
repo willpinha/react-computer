@@ -3,27 +3,25 @@ import {
 	Alert,
 	Anchor,
 	Button,
-	Divider,
 	Drawer,
 	Group,
 	Kbd,
 	Modal,
+	Paper,
 	Stack,
+	Table,
 	Text,
+	Title,
 	TypographyStylesProvider,
 	useMantineColorScheme,
 } from "@mantine/core";
-import { useDisclosure, useHotkeys, useHover } from "@mantine/hooks";
+import { useDisclosure, useHotkeys } from "@mantine/hooks";
 import { spotlight } from "@mantine/spotlight";
-import {
-	IconInfoCircle,
-	IconStarFilled,
-	IconStarOff,
-	IconStarsOff,
-} from "@tabler/icons-react";
+import { IconMoodNeutral, IconStarsOff, IconX } from "@tabler/icons-react";
 import { createContext, ReactNode, useContext } from "react";
 import { Link } from "react-router";
-import { wiki } from "../../lib/wiki";
+import sharedClasses from "../../css/shared.module.css";
+import { wiki, WikiComponent } from "../../lib/wiki";
 import { useStarredComponents } from "./useStarredComponents";
 
 type Disclosure = ReturnType<typeof useDisclosure>;
@@ -169,39 +167,32 @@ function DocumentationModal() {
 	);
 }
 
-function StarredComponentLink({ timestamp }: { timestamp: string }) {
-	const component = wiki[timestamp];
+type GroupedStarred = {
+	[categoryName: string]: {
+		[timestamp: string]: WikiComponent;
+	};
+};
 
-	if (!component) {
-		return null;
+function buildGroupedStarred(starred: string[]): GroupedStarred {
+	const grouped: GroupedStarred = {};
+
+	for (const timestamp of starred) {
+		const component = wiki[timestamp];
+
+		if (!component) {
+			continue;
+		}
+
+		const { category } = component.metadata;
+
+		if (!grouped[category]) {
+			grouped[category] = {};
+		}
+
+		grouped[category][timestamp] = component;
 	}
 
-	const { toggleStarred } = useStarredComponents();
-	const { ref, hovered } = useHover();
-
-	return (
-		<Group>
-			<ActionIcon
-				ref={ref}
-				variant="transparent"
-				color={hovered ? "gray" : "yellow"}
-				onClick={() => toggleStarred(timestamp)}
-			>
-				{hovered ? <IconStarOff /> : <IconStarFilled />}
-			</ActionIcon>
-			<Stack gap={0}>
-				<Anchor
-					component={Link}
-					to={`/categories/${component.metadata.category}#${timestamp}`}
-				>
-					{component.metadata.name}
-				</Anchor>
-				<Text size="xs" c="dimmed">
-					Timestamp {timestamp}
-				</Text>
-			</Stack>
-		</Group>
-	);
+	return grouped;
 }
 
 function StarredComponentsDrawer() {
@@ -211,7 +202,9 @@ function StarredComponentsDrawer() {
 		starredComponentsDisclosure: [opened, { open, close }],
 	} = useKeyboardShortcuts();
 
-	const { starred, removeAllStarred } = useStarredComponents();
+	const { starred, toggleStarred, removeAllStarred } = useStarredComponents();
+
+	const groupedStarred = buildGroupedStarred(starred);
 
 	return (
 		<Drawer
@@ -220,30 +213,82 @@ function StarredComponentsDrawer() {
 			title="My starred components"
 			position="right"
 		>
-			<Stack>
-				<Alert color="cyan" title="Important" icon={<IconInfoCircle />}>
-					Your starred components are saved to local storage and do
-					not persist outside of that browser
-				</Alert>
-				<Divider />
-				<Text>{starred.length} component(s)</Text>
-				{starred.map((timestamp) => (
-					<StarredComponentLink
-						key={timestamp}
-						timestamp={timestamp}
-					/>
-				))}
-				<Divider />
-				<Group justify="end">
-					<Button
-						color="red"
-						size="xs"
-						leftSection={<IconStarsOff size={16} />}
-						onClick={removeAllStarred}
+			<Stack gap="xl">
+				<Text c="dimmed">{starred.length} component(s)</Text>
+				{starred.length === 0 && (
+					<Alert
+						color="gray"
+						title="Nothing found"
+						icon={<IconMoodNeutral />}
 					>
-						Unstar all
-					</Button>
-				</Group>
+						You don't have any starred components
+					</Alert>
+				)}
+				{Object.entries(groupedStarred).map(([category, subwiki]) => (
+					<Stack gap="xs">
+						<Title order={5}>{category}</Title>
+						<Paper
+							withBorder
+							shadow="sm"
+							className={sharedClasses.overlay}
+						>
+							<Table>
+								<Table.Thead>
+									<Table.Tr>
+										<Table.Th w="100%">Component</Table.Th>
+										<Table.Th></Table.Th>
+									</Table.Tr>
+								</Table.Thead>
+								<Table.Tbody>
+									{Object.entries(subwiki).map(
+										([timestamp, component]) => (
+											<Table.Tr>
+												<Table.Td>
+													<Anchor
+														component={Link}
+														to={`/categories/${category}#${timestamp}`}
+													>
+														{
+															component.metadata
+																.name
+														}
+													</Anchor>
+												</Table.Td>
+												<Table.Td>
+													<ActionIcon
+														size="xs"
+														variant="transparent"
+														color="gray"
+														onClick={() =>
+															toggleStarred(
+																timestamp
+															)
+														}
+													>
+														<IconX />
+													</ActionIcon>
+												</Table.Td>
+											</Table.Tr>
+										)
+									)}
+								</Table.Tbody>
+							</Table>
+						</Paper>
+					</Stack>
+				))}
+				{starred.length > 0 && (
+					<Group justify="end">
+						<Button
+							color="red"
+							variant="outline"
+							size="xs"
+							leftSection={<IconStarsOff size={16} />}
+							onClick={removeAllStarred}
+						>
+							Remove all
+						</Button>
+					</Group>
+				)}
 			</Stack>
 		</Drawer>
 	);
