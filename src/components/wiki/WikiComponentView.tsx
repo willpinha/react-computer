@@ -1,9 +1,9 @@
 import {
+	ActionIcon,
 	Box,
 	Button,
 	Divider,
 	Group,
-	Loader,
 	Paper,
 	Stack,
 	Text,
@@ -60,13 +60,15 @@ export function WikiComponentView({
 		<Paper withBorder shadow="sm" id={timestamp} ref={targetRef}>
 			<Group justify="space-between" p="xs">
 				<Group gap="sm">
-					<ThemeIcon variant="default" size="sm">
-						{loadedWikiComponent.isLoading ? (
-							<Loader size={14} color="#04D0F4" />
-						) : (
-							<IconBrandReact color="#04D0F4" />
-						)}
-					</ThemeIcon>
+					<ActionIcon
+						variant="default"
+						size="sm"
+						loading={loadedWikiComponent.isLoading}
+						component={Link}
+						to={`#${timestamp}`}
+					>
+						<IconBrandReact color="#04D0F4" />
+					</ActionIcon>
 					<Stack gap={0}>
 						<Title order={5}>{component.metadata.name}</Title>
 						<Group gap="xs">
