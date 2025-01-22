@@ -29,22 +29,28 @@ import classes from "./WikiComponentView.module.css";
 
 type WikiComponentProps = {
 	timestamp: string;
+	withCode?: boolean;
 };
 
-export function WikiComponentView({ timestamp }: WikiComponentProps) {
+export function WikiComponentView({
+	timestamp,
+	withCode = true,
+}: WikiComponentProps) {
 	const component = getWikiComponent(timestamp);
 
 	const location = useLocation();
 
 	const loadedWikiComponent = useLoadedWikiComponent(component);
 
-	const { scrollIntoView, targetRef } = useScrollIntoView();
+	const { scrollIntoView, targetRef } = useScrollIntoView({ duration: 0 });
 
 	const { isStarred, toggleStarred } = useStarredComponents();
 
 	useEffect(() => {
 		if (location.hash === `#${timestamp}`) {
-			scrollIntoView();
+			scrollIntoView({
+				alignment: "center",
+			});
 		}
 	}, [location.hash]);
 
@@ -111,19 +117,21 @@ export function WikiComponentView({ timestamp }: WikiComponentProps) {
 					>
 						GitHub
 					</Button>
-					<Button
-						component={Link}
-						to={"/opa"}
-						variant="default"
-						leftSection={
-							<ThemeIcon color="blue" size="xs">
-								<IconCode size={20} />
-							</ThemeIcon>
-						}
-						size="xs"
-					>
-						Code
-					</Button>
+					{withCode && (
+						<Button
+							component={Link}
+							to={`/code/${timestamp}`}
+							variant="default"
+							leftSection={
+								<ThemeIcon color="blue" size="xs">
+									<IconCode size={20} />
+								</ThemeIcon>
+							}
+							size="xs"
+						>
+							Code
+						</Button>
+					)}
 				</Button.Group>
 			</Group>
 			{loadedWikiComponent.isSuccess && (

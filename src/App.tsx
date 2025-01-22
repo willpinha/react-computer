@@ -22,6 +22,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router";
 import { KeyboardShortcutsProvider } from "./components/hooks/useKeyboardShortcuts";
 import { CategoryPage } from "./components/pages/CategoryPage";
+import { CodePage } from "./components/pages/CodePage";
 import HomePage from "./components/pages/HomePage";
 import { categories } from "./lib/categories";
 import { queryClient } from "./lib/query";
@@ -84,6 +85,10 @@ function App() {
 							<Route
 								path="/categories/:categoryName"
 								element={<CategoryPage />}
+							/>
+							<Route
+								path="/code/:timestamp"
+								element={<CodePage />}
 							/>
 						</Routes>
 
