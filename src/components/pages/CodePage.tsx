@@ -8,12 +8,7 @@ import {
 	ThemeIcon,
 	Title,
 } from "@mantine/core";
-import {
-	IconArrowLeft,
-	IconBrandCss3,
-	IconBrandTypescript,
-	IconPinned,
-} from "@tabler/icons-react";
+import { IconArrowLeft, IconPinned } from "@tabler/icons-react";
 import { Link, useParams } from "react-router";
 import { getWikiComponent } from "../../lib/wiki";
 import { useLoadedWikiComponent } from "../hooks/useLoadedWikiComponent";
@@ -26,6 +21,8 @@ export function CodePage() {
 	}
 
 	const component = getWikiComponent(timestamp);
+
+	console.log(component);
 
 	const loadedComponent = useLoadedWikiComponent(component);
 
@@ -53,40 +50,22 @@ export function CodePage() {
 							<Tabs.Tab
 								value="index"
 								leftSection={
-									<Group gap="xs" wrap="nowrap">
-										<ThemeIcon
-											size="sm"
-											variant="transparent"
-											color="gray"
-										>
-											<IconPinned />
-										</ThemeIcon>
-										<ThemeIcon
-											size="xs"
-											radius="sm"
-											color="blue"
-										>
-											<IconBrandTypescript size={15} />
-										</ThemeIcon>
-									</Group>
+									<ThemeIcon
+										size="sm"
+										variant="transparent"
+										color="gray"
+									>
+										<IconPinned />
+									</ThemeIcon>
 								}
 							>
 								Index.tsx
 							</Tabs.Tab>
-							<Tabs.Tab
-								value="b"
-								leftSection={
-									<ThemeIcon
-										size="xs"
-										radius="sm"
-										color="violet"
-									>
-										<IconBrandCss3 />
-									</ThemeIcon>
-								}
-							>
-								Hello.module.css
-							</Tabs.Tab>
+							{component.files.map((file) => (
+								<Tabs.Tab value={file.filename}>
+									{file.filename}
+								</Tabs.Tab>
+							))}
 						</Tabs.List>
 					</ScrollArea>
 

@@ -66,12 +66,12 @@ async function buildWiki(): Promise<Wiki> {
 	const indexContentModules = import.meta.glob("../wiki/**/Index.tsx", {
 		query: "?raw",
 	});
-	// const filesModules = import.meta.glob(
-	// 	["../wiki/**/*.{tsx,module.css}", "!**/Index.tsx"],
-	// 	{
-	// 		query: "?raw",
-	// 	}
-	// );
+	const filesModules = import.meta.glob(
+		["../wiki/**/*.{tsx,module.css}", "!**/Index.tsx"],
+		{
+			query: "?raw",
+		}
+	);
 	const metadataModules = import.meta.glob("../wiki/**/metadata.ts");
 
 	for (const [path, nodeModule] of Object.entries(indexModules)) {
