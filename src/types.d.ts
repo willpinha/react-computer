@@ -4,7 +4,7 @@ import { dependencies } from "./lib/dependencies";
 declare global {
 	export type Category = (typeof categories)[number];
 
-	export type CategoryName = Category["name"];
+	export type CategoryName = Category["slug"];
 
 	export type Dependency = (typeof dependencies)[number];
 

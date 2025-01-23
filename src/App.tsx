@@ -39,11 +39,11 @@ function SearchSpotlight() {
 		{
 			group: "Categories",
 			actions: categories.map((category) => ({
-				id: category.name,
+				id: category.slug,
 				label: category.name,
 				description: category.aliases.join(", "),
 				leftSection: category.icon,
-				onClick: () => navigate(`/categories/${category.name}`),
+				onClick: () => navigate(`/categories/${category.slug}`),
 			})),
 		},
 		{

@@ -4,6 +4,7 @@ import { dependencySchema, getDependency } from "./dependencies";
 
 export const categorySchema = z.object({
 	name: z.string(),
+	slug: z.string(),
 	icon: z.object({}),
 	color: z.string(),
 	aliases: z.array(z.string()),
@@ -15,7 +16,8 @@ export const categorySchema = z.object({
  */
 export const categories = [
 	{
-		name: "radio",
+		name: "Radio",
+		slug: "radio",
 		icon: <IconRadio />,
 		color: "blue",
 		aliases: ["hello", "hey", "world"],
@@ -33,7 +35,7 @@ export function getCategory(categoryName?: string): Category {
 	}
 
 	const category = categories.find(
-		(category) => category.name === categoryName
+		(category) => category.slug === categoryName
 	);
 
 	if (!category) {

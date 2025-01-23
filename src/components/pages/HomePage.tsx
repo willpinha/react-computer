@@ -169,13 +169,13 @@ export default function HomePage() {
 				<SimpleGrid cols={{ sm: 1, md: 2, lg: 3 }} w="100%">
 					{categories.map((category) => (
 						<Paper
-							key={category.name}
+							key={category.slug}
 							className={classes.categoryCard}
 							withBorder
 							shadow="sm"
 							p="md"
 							component={Link}
-							to={`/categories/${category.name}`}
+							to={`/categories/${category.slug}`}
 						>
 							<Group c="gray">
 								<ThemeIcon color={category.color}>
