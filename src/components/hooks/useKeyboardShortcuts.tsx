@@ -349,17 +349,11 @@ function StarredComponentsDrawer() {
 							className={sharedClasses.overlay}
 						>
 							<Table>
-								<Table.Thead>
-									<Table.Tr>
-										<Table.Th w="100%">Component</Table.Th>
-										<Table.Th></Table.Th>
-									</Table.Tr>
-								</Table.Thead>
 								<Table.Tbody>
 									{Object.entries(subwiki).map(
 										([timestamp, component]) => (
 											<Table.Tr key={timestamp}>
-												<Table.Td>
+												<Table.Td w="100%">
 													<Anchor
 														component={Link}
 														to={`/categories/${category}#${timestamp}`}

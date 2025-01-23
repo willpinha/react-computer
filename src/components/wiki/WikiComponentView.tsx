@@ -5,6 +5,7 @@ import {
 import {
 	ActionIcon,
 	Button,
+	CopyButton,
 	Divider,
 	Group,
 	Paper,
@@ -22,6 +23,7 @@ import {
 	IconBrandReact,
 	IconCode,
 	IconCopy,
+	IconCopyCheck,
 	IconEye,
 	IconPinned,
 	IconStar,
@@ -41,11 +43,20 @@ type CopyTimestampButtonProps = {
 
 function CopyTimestampButton({ timestamp }: CopyTimestampButtonProps) {
 	return (
-		<Tooltip label="Copy timestamp">
-			<ActionIcon variant="subtle" size="xs" color="gray">
-				<IconCopy />
-			</ActionIcon>
-		</Tooltip>
+		<CopyButton value={timestamp}>
+			{({ copied, copy }) => (
+				<Tooltip label={copied ? "Copied!" : "Copy timestamp"}>
+					<ActionIcon
+						variant={copied ? "light" : "subtle"}
+						size="xs"
+						color={copied ? "teal" : "gray"}
+						onClick={copy}
+					>
+						{copied ? <IconCopyCheck /> : <IconCopy />}
+					</ActionIcon>
+				</Tooltip>
+			)}
+		</CopyButton>
 	);
 }
 
