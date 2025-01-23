@@ -85,13 +85,27 @@ async function buildWiki(): Promise<Wiki> {
 
 		const contentModule = indexContentModules[path] as ContentModule;
 
+		const files = Object.entries(filesModules).reduce(
+			(acc, [filePath, contentModule]) => {
+				if (filePath.includes(timestamp)) {
+					acc.push({
+						filename: extractComponentNameFromPath(filePath),
+						contentModule: contentModule as ContentModule,
+					});
+				}
+
+				return acc;
+			},
+			[] as WikiComponent["files"]
+		);
+
 		wiki[timestamp] = {
 			metadata,
 			index: {
 				nodeModule: nodeModule as IndexModule,
 				contentModule,
 			},
-			files: [],
+			files,
 		};
 	}
 
@@ -100,6 +114,10 @@ async function buildWiki(): Promise<Wiki> {
 
 function extractTimestampFromPath(path: string): string {
 	return path.split("/")[2];
+}
+
+function extractComponentNameFromPath(path: string): string {
+	return path.split("/")[3];
 }
 
 export const wiki = await buildWiki();

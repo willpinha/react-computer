@@ -1,10 +1,14 @@
 import {
+	CodeHighlightTabs,
+	CodeHighlightTabsCode,
+} from "@mantine/code-highlight";
+import {
 	ActionIcon,
-	Box,
 	Button,
 	Divider,
 	Group,
 	Paper,
+	SegmentedControl,
 	Stack,
 	Text,
 	ThemeIcon,
@@ -12,39 +16,214 @@ import {
 	Tooltip,
 } from "@mantine/core";
 import { useScrollIntoView } from "@mantine/hooks";
+import { CssIcon, TypeScriptIcon } from "@mantinex/dev-icons";
 import {
 	IconBrandGithub,
 	IconBrandReact,
 	IconCode,
+	IconCopy,
+	IconEye,
+	IconPinned,
 	IconStar,
 	IconStarFilled,
 } from "@tabler/icons-react";
-import { ReactNode, useEffect } from "react";
+import { UseQueryResult } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
-import { getWikiComponent, prettifyTimestamp } from "../../lib/wiki";
-import { CopyIconButton } from "../button/CopyIconButton";
+import sharedClasses from "../../css/shared.module.css";
+import { getWikiComponent, LoadedWikiComponent } from "../../lib/wiki";
 import { useLoadedWikiComponent } from "../hooks/useLoadedWikiComponent";
 import { useStarredComponents } from "../hooks/useStarredComponents";
-import classes from "./WikiComponentView.module.css";
 
-type WikiComponentProps = {
+type CopyTimestampButtonProps = {
 	timestamp: string;
-	withCode?: boolean;
 };
 
-export function WikiComponentView({
-	timestamp,
-	withCode = true,
-}: WikiComponentProps) {
-	const component = getWikiComponent(timestamp);
+function CopyTimestampButton({ timestamp }: CopyTimestampButtonProps) {
+	return (
+		<Tooltip label="Copy timestamp">
+			<ActionIcon variant="subtle" size="xs" color="gray">
+				<IconCopy />
+			</ActionIcon>
+		</Tooltip>
+	);
+}
 
+type ReactIconButtonProps = {
+	timestamp: string;
+	loadedWikiComponent: UseQueryResult<LoadedWikiComponent>;
+};
+
+function ReactIconButton({
+	timestamp,
+	loadedWikiComponent,
+}: ReactIconButtonProps) {
+	return (
+		<ActionIcon
+			variant="default"
+			size="sm"
+			c="#04D0F4"
+			loading={loadedWikiComponent.isLoading}
+			component={Link}
+			to={`#${timestamp}`}
+		>
+			<IconBrandReact />
+		</ActionIcon>
+	);
+}
+
+type GitHubButtonProps = {
+	timestamp: string;
+};
+
+function GitHubButton({ timestamp }: GitHubButtonProps) {
+	return (
+		<Button
+			size="xs"
+			variant="default"
+			leftSection={
+				<ThemeIcon variant="transparent" color="gray" size="xs">
+					<IconBrandGithub />
+				</ThemeIcon>
+			}
+			component={Link}
+			to={`https://github.com/willpinha/react-computer/tree/master/src/wiki/${timestamp}`}
+			target="_blank"
+		>
+			GitHub
+		</Button>
+	);
+}
+
+type StarButtonProps = {
+	timestamp: string;
+};
+
+function StarButton({ timestamp }: StarButtonProps) {
+	const { isStarred, toggleStarred } = useStarredComponents();
+
+	const starred = isStarred(timestamp);
+
+	return (
+		<Button
+			size="xs"
+			variant="default"
+			onClick={() => toggleStarred(timestamp)}
+			leftSection={
+				<ThemeIcon
+					variant="transparent"
+					size="xs"
+					color={starred ? "yellow" : "gray"}
+				>
+					{starred ? <IconStarFilled /> : <IconStar />}
+				</ThemeIcon>
+			}
+		>
+			{starred ? "Starred" : "Star"}
+		</Button>
+	);
+}
+
+function getFileIcon(fileName: string) {
+	if (fileName === "Index.tsx") {
+		return (
+			<ThemeIcon color="red" size="xs" radius="xl">
+				<IconPinned />
+			</ThemeIcon>
+		);
+	}
+
+	if (fileName.endsWith(".ts") || fileName.endsWith(".tsx")) {
+		return <TypeScriptIcon size={18} />;
+	}
+
+	if (fileName.endsWith(".css")) {
+		return <CssIcon size={18} />;
+	}
+
+	return null;
+}
+
+type WikiComponentCodeProps = {
+	loadedWikiComponent: UseQueryResult<LoadedWikiComponent>;
+};
+
+function WikiComponentCode({ loadedWikiComponent }: WikiComponentCodeProps) {
+	let code: CodeHighlightTabsCode[] = [];
+
+	function getLanguage(fileName: string) {
+		const language = fileName.split(".").pop();
+
+		return language;
+	}
+
+	if (loadedWikiComponent.isLoading) {
+		return null;
+	}
+
+	if (loadedWikiComponent.isSuccess) {
+		code = [
+			{
+				fileName: "Index.tsx",
+				code: loadedWikiComponent.data.index.content,
+				language: "tsx",
+			},
+			...loadedWikiComponent.data.files.map((file) => ({
+				fileName: file.filename,
+				code: file.content,
+				language: getLanguage(file.filename),
+			})),
+		];
+	}
+
+	return (
+		<CodeHighlightTabs
+			getFileIcon={getFileIcon}
+			withExpandButton
+			defaultExpanded={false}
+			expandCodeLabel="Show full code"
+			collapseCodeLabel="Show less"
+			code={code}
+		/>
+	);
+}
+
+type WikiComponentPreviewProps = {
+	loadedWikiComponent: UseQueryResult<LoadedWikiComponent>;
+};
+
+function WikiComponentPreview({
+	loadedWikiComponent,
+}: WikiComponentPreviewProps) {
+	if (loadedWikiComponent.isError) {
+		return <Text c="red">Error loading component</Text>;
+	}
+
+	if (loadedWikiComponent.isPending) {
+		return null;
+	}
+
+	return (
+		<Paper p="sm" className={sharedClasses.darkOverlay}>
+			{loadedWikiComponent.data.index.node}
+		</Paper>
+	);
+}
+
+type WikiComponentViewProps = {
+	timestamp: string;
+};
+
+export function WikiComponentView({ timestamp }: WikiComponentViewProps) {
 	const location = useLocation();
+
+	const component = getWikiComponent(timestamp);
 
 	const loadedWikiComponent = useLoadedWikiComponent(component);
 
-	const { scrollIntoView, targetRef } = useScrollIntoView({ duration: 0 });
+	const [currentTab, setCurrentTab] = useState<string>("preview");
 
-	const { isStarred, toggleStarred } = useStarredComponents();
+	const { scrollIntoView, targetRef } = useScrollIntoView({ duration: 0 });
 
 	useEffect(() => {
 		if (location.hash === `#${timestamp}`) {
@@ -54,102 +233,75 @@ export function WikiComponentView({
 		}
 	}, [location.hash]);
 
-	const starred = isStarred(timestamp);
-
-	const Wrapper = ({ children }: { children: ReactNode }) => (
-		<Paper withBorder shadow="sm" id={timestamp} ref={targetRef}>
-			<Group justify="space-between" p="xs">
-				<Group gap="sm">
-					<ActionIcon
-						variant="default"
-						size="sm"
-						loading={loadedWikiComponent.isLoading}
-						component={Link}
-						to={`#${timestamp}`}
-					>
-						<IconBrandReact color="#04D0F4" />
-					</ActionIcon>
-					<Stack gap={0}>
-						<Title order={5}>{component.metadata.name}</Title>
-						<Group gap="xs">
-							<Tooltip label={`Timestamp ${timestamp}`}>
-								<Text
-									size="xs"
-									c="dimmed"
-									style={{ cursor: "help" }}
-								>
-									{prettifyTimestamp(timestamp)}
-								</Text>
-							</Tooltip>
-							<CopyIconButton
-								name="timestamp"
-								value={timestamp}
-							/>
-						</Group>
-					</Stack>
-				</Group>
-				<Button.Group>
-					<Button
-						variant="default"
-						size="xs"
-						leftSection={
-							<ThemeIcon
-								size="xs"
-								variant="transparent"
-								color={starred ? "yellow" : "gray"}
-							>
-								{starred ? <IconStarFilled /> : <IconStar />}
-							</ThemeIcon>
-						}
-						onClick={() => toggleStarred(timestamp)}
-					>
-						{starred ? "Starred" : "Star"}
-					</Button>
-					<Button
-						component={Link}
-						to={`https://github.com/willpinha/react-computer/tree/master/src/wiki/${timestamp}`}
-						target="_blank"
-						variant="default"
-						leftSection={
-							<ThemeIcon color="dark" size="xs">
-								<IconBrandGithub size={20} />
-							</ThemeIcon>
-						}
-						size="xs"
-					>
-						GitHub
-					</Button>
-					{withCode && (
-						<Button
-							component={Link}
-							to={`/code/${timestamp}`}
-							variant="default"
-							leftSection={
-								<ThemeIcon color="blue" size="xs">
-									<IconCode size={20} />
-								</ThemeIcon>
-							}
+	return (
+		<Paper
+			withBorder
+			shadow="sm"
+			style={{
+				borderBottomLeftRadius: 0,
+				borderBottomRightRadius: 0,
+			}}
+			ref={targetRef}
+		>
+			<Stack gap={0}>
+				<Group
+					p="xs"
+					justify="space-between"
+					className={sharedClasses.overlay}
+				>
+					<Group>
+						<ReactIconButton
+							timestamp={timestamp}
+							loadedWikiComponent={loadedWikiComponent}
+						/>
+						<Title order={6}>{component.metadata.name}</Title>
+						<CopyTimestampButton timestamp={timestamp} />
+					</Group>
+					<Group>
+						<Button.Group>
+							<StarButton timestamp={timestamp} />
+							<GitHubButton timestamp={timestamp} />
+						</Button.Group>
+						<SegmentedControl
 							size="xs"
-						>
-							Code
-						</Button>
-					)}
-				</Button.Group>
-			</Group>
-			{loadedWikiComponent.isSuccess && (
-				<>
-					<Divider />
-					<Box p="md" className={classes.render}>
-						{children}
-					</Box>
-				</>
-			)}
+							value={currentTab}
+							onChange={setCurrentTab}
+							data={[
+								{
+									value: "preview",
+									label: (
+										<Group gap={5} wrap="nowrap">
+											<IconEye size={20} />
+											<Text inherit>Preview</Text>
+										</Group>
+									),
+								},
+								{
+									value: "code",
+									label: (
+										<Group gap={5} wrap="nowrap">
+											<IconCode size={20} />
+											<Text inherit>Code</Text>
+										</Group>
+									),
+								},
+							]}
+						/>
+					</Group>
+				</Group>
+				<Divider />
+				{currentTab === "preview" && (
+					<WikiComponentPreview
+						loadedWikiComponent={loadedWikiComponent}
+					/>
+				)}
+
+				{currentTab === "code" && (
+					<WikiComponentCode
+						loadedWikiComponent={loadedWikiComponent}
+					/>
+				)}
+			</Stack>
 		</Paper>
 	);
-
-	if (loadedWikiComponent.isError) {
-		return <Wrapper>Error</Wrapper>;
-	}
-
-	return <Wrapper>{loadedWikiComponent.data?.index.node}</Wrapper>;
 }
