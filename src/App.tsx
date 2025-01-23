@@ -41,6 +41,7 @@ function SearchSpotlight() {
 			actions: categories.map((category) => ({
 				id: category.name,
 				label: category.name,
+				description: category.aliases.join(", "),
 				leftSection: category.icon,
 				onClick: () => navigate(`/categories/${category.name}`),
 			})),

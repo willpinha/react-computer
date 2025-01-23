@@ -6,6 +6,7 @@ export const categorySchema = z.object({
 	name: z.string(),
 	icon: z.object({}),
 	color: z.string(),
+	aliases: z.array(z.string()),
 	dependencies: z.array(dependencySchema).optional(),
 });
 
@@ -17,6 +18,7 @@ export const categories = [
 		name: "radio",
 		icon: <IconRadio />,
 		color: "blue",
+		aliases: ["hello", "hey", "world"],
 		dependencies: [getDependency("@tanstack/table")],
 	},
 ] as const;
