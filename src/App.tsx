@@ -84,7 +84,7 @@ function App() {
 						<Routes>
 							<Route path="/" element={<HomePage />} />
 							<Route
-								path="/categories/:categoryName"
+								path="/categories/:categorySlug"
 								element={<CategoryPage />}
 							/>
 							<Route

@@ -27,15 +27,15 @@ export const categories = [
 
 await z.array(categorySchema).parseAsync(categories);
 
-export function getCategory(categoryName?: string): Category {
+export function getCategory(categorySlug?: string): Category {
 	const error = new Error("Category not found");
 
-	if (!categoryName) {
+	if (!categorySlug) {
 		throw error;
 	}
 
 	const category = categories.find(
-		(category) => category.slug === categoryName
+		(category) => category.slug === categorySlug
 	);
 
 	if (!category) {

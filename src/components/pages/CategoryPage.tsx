@@ -79,11 +79,11 @@ function Dependencies({ category }: DependenciesProps) {
 }
 
 export function CategoryPage() {
-	const { categoryName } = useParams();
+	const { categorySlug } = useParams();
 
-	const category = getCategory(categoryName);
+	const category = getCategory(categorySlug);
 
-	const filteredWiki = filterWikiByCategory(categoryName as CategoryName);
+	const filteredWiki = filterWikiByCategory(categorySlug as CategoryName);
 
 	return (
 		<Container size="xl" p="lg">
@@ -107,7 +107,7 @@ export function CategoryPage() {
 				</Group>
 				<Dependencies category={category} />
 				<Group justify="space-between">
-					<Title>{categoryName}</Title>
+					<Title>{category.name}</Title>
 					<Group>
 						<Button
 							variant="default"
