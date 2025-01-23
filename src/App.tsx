@@ -19,7 +19,7 @@ import {
 } from "@mantine/spotlight";
 import { IconSearch } from "@tabler/icons-react";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router";
+import { HashRouter, Route, Routes, useNavigate } from "react-router";
 import { KeyboardShortcutsProvider } from "./components/hooks/useKeyboardShortcuts";
 import { CategoryPage } from "./components/pages/CategoryPage";
 import { CodePage } from "./components/pages/CodePage";
@@ -78,7 +78,7 @@ function App() {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<MantineProvider theme={theme} defaultColorScheme="dark">
-				<BrowserRouter>
+				<HashRouter>
 					<KeyboardShortcutsProvider>
 						<Routes>
 							<Route path="/" element={<HomePage />} />
@@ -94,7 +94,7 @@ function App() {
 
 						<SearchSpotlight />
 					</KeyboardShortcutsProvider>
-				</BrowserRouter>
+				</HashRouter>
 				<Notifications />
 			</MantineProvider>
 		</QueryClientProvider>
