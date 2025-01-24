@@ -216,9 +216,11 @@ function WikiComponentPreview({
 		return null;
 	}
 
+	const { Node } = loadedWikiComponent.data.index;
+
 	return (
 		<Paper p="sm" className={sharedClasses.darkOverlay}>
-			{loadedWikiComponent.data.index.node}
+			<Node />
 		</Paper>
 	);
 }

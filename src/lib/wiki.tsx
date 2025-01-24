@@ -24,7 +24,7 @@ export type WikiComponent = {
 export type LoadedWikiComponent = {
 	metadata: Metadata;
 	index: {
-		node: ReactNode;
+		Node: () => ReactNode;
 		content: string;
 	};
 	files: {
@@ -41,7 +41,7 @@ export async function loadWikiComponent(
 	component: WikiComponent
 ): Promise<LoadedWikiComponent> {
 	const index = {
-		node: (await component.index.nodeModule()).Index(),
+		Node: (await component.index.nodeModule()).Index,
 		content: (await component.index.contentModule()).default,
 	};
 
