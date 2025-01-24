@@ -18,7 +18,7 @@ body:
       attributes:
           label: Component timestamp
           description: The timestamp of the component you are reporting a bug for
-          placeholder: 20250124173800
+          placeholder: "20250124173800"
       validations:
           required: true
     - type: textarea
