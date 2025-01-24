@@ -130,8 +130,12 @@ export default function HomePage() {
 						</Text>
 					</Title>
 					<Group gap="sm">
-						<Tooltip label="Sponsor this project" withArrow>
-							<ActionIcon color="red">
+						<Tooltip label="Sponsor" withArrow>
+							<ActionIcon
+								color="red"
+								component={Link}
+								to="https://github.com/sponsors/willpinha"
+							>
 								<IconHeartFilled />
 							</ActionIcon>
 						</Tooltip>
