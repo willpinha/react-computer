@@ -1,6 +1,10 @@
-import { IconAlertTriangle, IconHandClick } from "@tabler/icons-react";
+import {
+	IconAlertTriangle,
+	IconHandClick,
+	IconTable,
+} from "@tabler/icons-react";
 import z from "zod";
-import { dependencySchema } from "./dependencies";
+import { dependencySchema, getDependency } from "./dependencies";
 
 export const categorySchema = z.object({
 	name: z.string(),
@@ -28,6 +32,14 @@ export const categories = [
 		icon: <IconHandClick />,
 		color: "blue",
 		aliases: [],
+	},
+	{
+		name: "Table",
+		slug: "table",
+		icon: <IconTable />,
+		color: "violet",
+		aliases: ["row", "grid", "column", "list"],
+		dependencies: [getDependency("@tanstack/table")],
 	},
 ] as const;
 
