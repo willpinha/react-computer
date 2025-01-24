@@ -207,6 +207,8 @@ function WikiComponentPreview({
 	loadedWikiComponent,
 }: WikiComponentPreviewProps) {
 	if (loadedWikiComponent.isError) {
+		console.error(loadedWikiComponent.error);
+
 		return <Text c="red">Error loading component</Text>;
 	}
 
