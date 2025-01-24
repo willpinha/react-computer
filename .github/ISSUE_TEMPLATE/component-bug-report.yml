@@ -1,6 +1,5 @@
 name: Bug Report
 description: 🐞 Create a component bug report
-title: "[Bug]: "
 labels: ["bug"]
 assignees:
     - willpinha
