@@ -5,7 +5,6 @@ import {
 	Group,
 	Image,
 	Kbd,
-	Paper,
 	SimpleGrid,
 	Stack,
 	Text,
@@ -168,11 +167,9 @@ export default function HomePage() {
 
 				<SimpleGrid cols={{ sm: 1, md: 2, lg: 3 }} w="100%">
 					{categories.map((category) => (
-						<Paper
+						<UnstyledButton
 							key={category.slug}
 							className={classes.categoryCard}
-							withBorder
-							shadow="sm"
 							p="md"
 							component={Link}
 							to={`/categories/${category.slug}`}
@@ -184,7 +181,7 @@ export default function HomePage() {
 
 								<Title order={2}>{category.name}</Title>
 							</Group>
-						</Paper>
+						</UnstyledButton>
 					))}
 				</SimpleGrid>
 			</Stack>
