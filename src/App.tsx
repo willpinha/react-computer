@@ -24,6 +24,7 @@ import { KeyboardShortcutsProvider } from "./components/hooks/useKeyboardShortcu
 import { CategoryPage } from "./components/pages/CategoryPage";
 import { CodePage } from "./components/pages/CodePage";
 import HomePage from "./components/pages/HomePage";
+import { NotFoundPage } from "./components/pages/NotFoundPage";
 import { categories } from "./lib/categories";
 import { queryClient } from "./lib/query";
 import { wiki } from "./lib/wiki";
@@ -82,6 +83,7 @@ function App() {
 				<HashRouter>
 					<KeyboardShortcutsProvider>
 						<Routes>
+							<Route path="*" element={<NotFoundPage />} />
 							<Route path="/" element={<HomePage />} />
 							<Route
 								path="/categories/:categorySlug"

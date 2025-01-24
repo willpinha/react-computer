@@ -247,7 +247,6 @@ export function WikiComponentView({ timestamp }: WikiComponentViewProps) {
 	return (
 		<Paper
 			withBorder
-			shadow="sm"
 			style={{
 				borderBottomLeftRadius: 0,
 				borderBottomRightRadius: 0,
