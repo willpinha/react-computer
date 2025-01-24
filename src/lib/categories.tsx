@@ -1,5 +1,6 @@
 import {
 	IconAlertTriangle,
+	IconForms,
 	IconHandClick,
 	IconTable,
 } from "@tabler/icons-react";
@@ -40,6 +41,13 @@ export const categories = [
 		color: "violet",
 		aliases: ["row", "grid", "column", "list"],
 		dependencies: [getDependency("@tanstack/table")],
+	},
+	{
+		name: "Input",
+		slug: "input",
+		icon: <IconForms />,
+		color: "green",
+		aliases: ["text", "password", "number", "email"],
 	},
 ] as const;
 
