@@ -1,0 +1,41 @@
+name: Bug Report
+description: 🐞 Create a component bug report
+title: "[Bug]: "
+labels: ["bug"]
+assignees:
+    - willpinha
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Thanks for taking the time to fill out this bug report!
+
+              > [!IMPORTANT]
+              > Every component has a timestamp which is a unique identifier for the component.
+              > To report a bug for a component, copy its timestamp and paste it here
+    - type: input
+      id: timestamp
+      attributes:
+          label: Component timestamp
+          description: The timestamp of the component you are reporting a bug for
+          placeholder: 20250124173800
+      validations:
+          required: true
+    - type: textarea
+      id: what-is-the-bug
+      attributes:
+          label: What is the bug?
+          description: A clear and concise description of what the bug is
+          placeholder: I found a bug when I...
+      validations:
+          required: true
+    - type: dropdown
+      id: do-you-want-to-fix-this-bug
+      attributes:
+          label: Do you want to fix this bug?
+          description: It is not mandatory. You can just point out a bug without fixing it
+          options:
+              - Yes, I want to fix it
+              - No, I just want to point it out
+      validations:
+          required: true
