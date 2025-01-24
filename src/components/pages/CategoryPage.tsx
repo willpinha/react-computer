@@ -117,6 +117,8 @@ export function CategoryPage() {
 								</ThemeIcon>
 							}
 							size="xs"
+							component={Link}
+							to="https://github.com/willpinha/react-computer/issues/new?template=component-bug-report.yml"
 						>
 							Report bug
 						</Button>
