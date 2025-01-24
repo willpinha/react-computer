@@ -3,5 +3,5 @@ import { Metadata } from "../../lib/wiki";
 
 export const metadata: Metadata = {
 	category: "button",
-	name: "Print",
+	name: "Print button",
 };

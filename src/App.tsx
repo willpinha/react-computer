@@ -66,6 +66,7 @@ function SearchSpotlight() {
 			<Spotlight
 				actions={actions}
 				nothingFound="Nothing found..."
+				limit={7}
 				highlightQuery
 				searchProps={{
 					leftSection: <IconSearch />,
