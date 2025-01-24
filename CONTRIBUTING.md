@@ -36,5 +36,5 @@ You can also create additional files alongside `Index.tsx` with the extensions `
 To create a new component, run the command below:
 
 ```
-pnpm run new-component
+pnpm run create-component
 ```

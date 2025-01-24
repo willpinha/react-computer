@@ -1,4 +1,4 @@
-import { IconRadio } from "@tabler/icons-react";
+import { IconHandClick, IconRadio } from "@tabler/icons-react";
 import z from "zod";
 import { dependencySchema, getDependency } from "./dependencies";
 
@@ -19,9 +19,16 @@ export const categories = [
 		name: "Radio",
 		slug: "radio",
 		icon: <IconRadio />,
-		color: "blue",
-		aliases: ["hello", "hey", "world"],
+		color: "green",
+		aliases: [],
 		dependencies: [getDependency("@tanstack/table")],
+	},
+	{
+		name: "Button",
+		slug: "button",
+		icon: <IconHandClick />,
+		color: "blue",
+		aliases: [],
 	},
 ] as const;
 
