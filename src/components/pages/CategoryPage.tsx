@@ -29,7 +29,9 @@ type DependenciesProps = {
 function Dependencies({ category }: DependenciesProps) {
 	const [opened, { close, open }] = useDisclosure(false);
 
-	if (!category.dependencies) {
+	const hasDependencies = "dependencies" in category;
+
+	if (!hasDependencies) {
 		return null;
 	}
 
