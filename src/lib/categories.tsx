@@ -1,6 +1,6 @@
-import { IconHandClick, IconRadio } from "@tabler/icons-react";
+import { IconAlertTriangle, IconHandClick } from "@tabler/icons-react";
 import z from "zod";
-import { dependencySchema, getDependency } from "./dependencies";
+import { dependencySchema } from "./dependencies";
 
 export const categorySchema = z.object({
 	name: z.string(),
@@ -16,12 +16,11 @@ export const categorySchema = z.object({
  */
 export const categories = [
 	{
-		name: "Radio",
-		slug: "radio",
-		icon: <IconRadio />,
-		color: "green",
-		aliases: [],
-		dependencies: [getDependency("@tanstack/table")],
+		name: "Alert",
+		slug: "alert",
+		icon: <IconAlertTriangle />,
+		color: "yellow",
+		aliases: ["success", "info", "error", "danger", "warning", "neutral"],
 	},
 	{
 		name: "Button",
