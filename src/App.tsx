@@ -15,7 +15,6 @@ import { Notifications } from "@mantine/notifications";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Route, Routes } from "react-router";
 import { CategoryPage } from "./components/pages/CategoryPage";
-import { CodePage } from "./components/pages/CodePage";
 import { HomePage } from "./components/pages/HomePage";
 import { NotFoundPage } from "./components/pages/NotFoundPage";
 import { queryClient } from "./lib/query";
@@ -35,10 +34,6 @@ function App() {
 						<Route
 							path="/categories/:category"
 							element={<CategoryPage />}
-						/>
-						<Route
-							path="/code/:category/:component"
-							element={<CodePage />}
 						/>
 					</Routes>
 				</HashRouter>
