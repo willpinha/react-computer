@@ -175,14 +175,6 @@ export function WikiComponentView({
 		}
 	}, [location.hash]);
 
-	if (loadedWikiComponent.isPending) {
-		return "Loading...";
-	}
-
-	if (loadedWikiComponent.isError) {
-		return "Error";
-	}
-
 	return (
 		<Paper
 			withBorder
