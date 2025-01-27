@@ -198,6 +198,7 @@ export function WikiComponentView({
 								color="gray"
 								component={Link}
 								to={`https://github.com/willpinha/react-computer/tree/master/src/wiki/${category}/${componentName}`}
+								target="_blank"
 							>
 								<GithubIcon />
 							</ActionIcon>
