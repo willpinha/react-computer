@@ -176,14 +176,7 @@ export function WikiComponentView({
 	}, [location.hash]);
 
 	return (
-		<Paper
-			withBorder
-			style={{
-				borderBottomLeftRadius: 0,
-				borderBottomRightRadius: 0,
-			}}
-			ref={targetRef}
-		>
+		<Paper withBorder radius={0} ref={targetRef}>
 			<Stack gap={0}>
 				<Group
 					justify="space-between"
