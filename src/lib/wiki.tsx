@@ -20,7 +20,7 @@ export type WikiComponent = {
 	files: File[];
 };
 
-type LoadedWikiComponent = {
+export type LoadedWikiComponent = {
 	Index: () => ReactNode;
 	indexContent: string;
 	files: LoadedFile[];

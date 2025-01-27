@@ -1,36 +1,7 @@
 import { Stack } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
-import { loadWikiComponent, wiki, WikiComponent } from "../../lib/wiki";
-
-type LoadedWikiComponentProps = {
-	category: string;
-	componentName: string;
-	component: WikiComponent;
-};
-
-function LoadedWikiComponent({
-	category,
-	componentName,
-	component,
-}: LoadedWikiComponentProps) {
-	const query = useQuery({
-		queryKey: ["component", category, componentName],
-		queryFn: async () => await loadWikiComponent(component),
-	});
-
-	if (query.isPending) {
-		return "Loading...";
-	}
-
-	if (query.isError) {
-		return "Error";
-	}
-
-	const { Index } = query.data;
-
-	return <Index />;
-}
+import { wiki } from "../../lib/wiki";
+import { WikiComponentView } from "../wiki/WikiComponentView";
 
 export function CategoryPage() {
 	const { category } = useParams();
@@ -40,10 +11,10 @@ export function CategoryPage() {
 	}
 
 	return (
-		<Stack>
+		<Stack p="xs">
 			{Object.entries(wiki[category]).map(
 				([componentName, component]) => (
-					<LoadedWikiComponent
+					<WikiComponentView
 						key={componentName}
 						category={category}
 						componentName={componentName}
