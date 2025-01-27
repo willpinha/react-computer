@@ -12,92 +12,35 @@ import "@mantine/tiptap/styles.css";
 
 import { createTheme, MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
-import {
-	Spotlight,
-	SpotlightActionData,
-	SpotlightActionGroupData,
-} from "@mantine/spotlight";
-import { IconSearch } from "@tabler/icons-react";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { HashRouter, Route, Routes, useNavigate } from "react-router";
-import { KeyboardShortcutsProvider } from "./components/hooks/useKeyboardShortcuts";
+import { HashRouter, Route, Routes } from "react-router";
 import { CategoryPage } from "./components/pages/CategoryPage";
 import { CodePage } from "./components/pages/CodePage";
-import HomePage from "./components/pages/HomePage";
+import { HomePage } from "./components/pages/HomePage";
 import { NotFoundPage } from "./components/pages/NotFoundPage";
-import { categories } from "./lib/categories";
 import { queryClient } from "./lib/query";
-import { wiki } from "./lib/wiki";
 
 const theme = createTheme({
 	primaryColor: "green",
 });
-
-function SearchSpotlight() {
-	const navigate = useNavigate();
-
-	const actions: (SpotlightActionGroupData | SpotlightActionData)[] = [
-		{
-			group: "Categories",
-			actions: categories.map((category) => ({
-				id: category.slug,
-				label: category.name,
-				description: category.aliases.join(", "),
-				leftSection: category.icon,
-				onClick: () => navigate(`/categories/${category.slug}`),
-			})),
-		},
-		{
-			group: "Components",
-			actions: Object.entries(wiki).map(([timestamp, component]) => ({
-				id: timestamp,
-				label: component.metadata.name,
-				description: `Timestamp ${timestamp}`,
-				onClick: () =>
-					navigate(
-						`/categories/${component.metadata.category}#${timestamp}`
-					),
-			})),
-		},
-	];
-
-	return (
-		<>
-			<Spotlight
-				actions={actions}
-				nothingFound="Nothing found..."
-				limit={7}
-				highlightQuery
-				searchProps={{
-					leftSection: <IconSearch />,
-					placeholder: "Find categories and components",
-				}}
-			/>
-		</>
-	);
-}
 
 function App() {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<MantineProvider theme={theme} defaultColorScheme="dark">
 				<HashRouter>
-					<KeyboardShortcutsProvider>
-						<Routes>
-							<Route path="*" element={<NotFoundPage />} />
-							<Route path="/" element={<HomePage />} />
-							<Route
-								path="/categories/:categorySlug"
-								element={<CategoryPage />}
-							/>
-							<Route
-								path="/code/:timestamp"
-								element={<CodePage />}
-							/>
-						</Routes>
-
-						<SearchSpotlight />
-					</KeyboardShortcutsProvider>
+					<Routes>
+						<Route path="*" element={<NotFoundPage />} />
+						<Route path="/" element={<HomePage />} />
+						<Route
+							path="/categories/:category"
+							element={<CategoryPage />}
+						/>
+						<Route
+							path="/code/:category/:component"
+							element={<CodePage />}
+						/>
+					</Routes>
 				</HashRouter>
 				<Notifications />
 			</MantineProvider>
