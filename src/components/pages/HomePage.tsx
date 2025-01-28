@@ -1,6 +1,7 @@
 import {
 	ActionIcon,
 	Badge,
+	Button,
 	Group,
 	Image,
 	Stack,
@@ -11,11 +12,13 @@ import {
 import {
 	IconBrandGithub,
 	IconBrandOpenSource,
+	IconHash,
 	IconHeartFilled,
 	IconSearch,
 	IconUsersGroup,
 } from "@tabler/icons-react";
 import { Link } from "react-router";
+import { numCategories, numComponents, wiki } from "../../lib/wiki";
 import { ThemeButton } from "../button/ThemeButton";
 
 export function HomePage() {
@@ -41,11 +44,11 @@ export function HomePage() {
 					<Text>
 						You can find{" "}
 						<Badge variant="outline" size="xs" component="span">
-							2378
+							{numComponents()}
 						</Badge>{" "}
 						components in{" "}
 						<Badge variant="outline" size="xs" component="span">
-							60
+							{numCategories()}
 						</Badge>{" "}
 						categories
 					</Text>
@@ -95,6 +98,25 @@ export function HomePage() {
 					<ThemeButton />
 				</Group>
 			</Stack>
+
+			<Group>
+				{Object.entries(wiki).map(([category, components]) => (
+					<Button
+						leftSection={<IconHash size={20} />}
+						rightSection={
+							<Text inherit c="dimmed" size="xs">
+								{Object.keys(components).length}
+							</Text>
+						}
+						variant="default"
+						radius="lg"
+						component={Link}
+						to={`/categories/${category}`}
+					>
+						{category}
+					</Button>
+				))}
+			</Group>
 		</Stack>
 	);
 }

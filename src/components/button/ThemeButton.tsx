@@ -9,7 +9,11 @@ export function ThemeButton() {
 			label={colorScheme === "dark" ? "Light mode" : "Dark mode"}
 			withArrow
 		>
-			<ActionIcon onClick={toggleColorScheme} variant="default">
+			<ActionIcon
+				onClick={toggleColorScheme}
+				variant="default"
+				c={colorScheme === "dark" ? "yellow" : "violet"}
+			>
 				{colorScheme === "dark" ? <IconSun /> : <IconMoon />}
 			</ActionIcon>
 		</Tooltip>

@@ -135,4 +135,15 @@ function extractFileName(filepath: string): string {
 	return filepath.split("/").pop()!;
 }
 
+export function numCategories() {
+	return Object.keys(wiki).length;
+}
+
+export function numComponents() {
+	return Object.values(wiki).reduce(
+		(acc, components) => acc + Object.keys(components).length,
+		0
+	);
+}
+
 export const wiki = buildWiki();
