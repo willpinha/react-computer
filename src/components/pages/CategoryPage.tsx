@@ -13,11 +13,11 @@ import {
 	IconArrowLeft,
 	IconBrandReact,
 	IconBug,
-	IconSun,
 	IconX,
 } from "@tabler/icons-react";
 import { Link, useParams } from "react-router";
 import { wiki } from "../../lib/wiki";
+import { ThemeButton } from "../button/ThemeButton";
 import { WikiComponentView } from "../wiki/WikiComponentView";
 
 export function CategoryPage() {
@@ -94,9 +94,7 @@ export function CategoryPage() {
 						>
 							Report bug
 						</Button>
-						<ActionIcon variant="default">
-							<IconSun />
-						</ActionIcon>
+						<ThemeButton />
 					</Group>
 				</Group>
 

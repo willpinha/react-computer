@@ -1,14 +1,10 @@
-import { Button, Kbd, ThemeIcon } from "@mantine/core";
+import { Button, Kbd } from "@mantine/core";
 import { IconPrinter } from "@tabler/icons-react";
 
 export function Index() {
 	return (
 		<Button
-			leftSection={
-				<ThemeIcon size="sm" variant="transparent" color="gray">
-					<IconPrinter />
-				</ThemeIcon>
-			}
+			leftSection={<IconPrinter size={20} />}
 			rightSection={<Kbd size="xs">Ctrl+P</Kbd>}
 			variant="default"
 		>
