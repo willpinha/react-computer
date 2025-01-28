@@ -22,10 +22,7 @@ import {
 	IconPinned,
 	IconRefresh,
 } from "@tabler/icons-react";
-import {
-	useSuspenseQuery,
-	UseSuspenseQueryResult,
-} from "@tanstack/react-query";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { v4 as uuidv4 } from "uuid";
@@ -38,7 +35,7 @@ import {
 
 type ReactIconButtonProps = {
 	componentName: string;
-	loadedWikiComponent: UseSuspenseQueryResult<LoadedWikiComponent>;
+	loadedWikiComponent: UseQueryResult<LoadedWikiComponent>;
 };
 
 function ReactIconButton({
@@ -80,7 +77,7 @@ function getFileIcon(fileName: string) {
 }
 
 type WikiComponentCodeProps = {
-	loadedWikiComponent: UseSuspenseQueryResult<LoadedWikiComponent>;
+	loadedWikiComponent: UseQueryResult<LoadedWikiComponent>;
 };
 
 function WikiComponentCode({ loadedWikiComponent }: WikiComponentCodeProps) {
@@ -121,7 +118,7 @@ function WikiComponentCode({ loadedWikiComponent }: WikiComponentCodeProps) {
 }
 
 type WikiComponentPreviewProps = {
-	loadedWikiComponent: UseSuspenseQueryResult<LoadedWikiComponent>;
+	loadedWikiComponent: UseQueryResult<LoadedWikiComponent>;
 };
 
 function WikiComponentPreview({
@@ -129,6 +126,10 @@ function WikiComponentPreview({
 }: WikiComponentPreviewProps) {
 	if (loadedWikiComponent.isPending) {
 		return null;
+	}
+
+	if (loadedWikiComponent.isError) {
+		return <Text c="red">{loadedWikiComponent.error.message}</Text>;
 	}
 
 	const { Index } = loadedWikiComponent.data;
@@ -151,7 +152,7 @@ export function WikiComponentView({
 	componentName,
 	component,
 }: WikiComponentViewProps) {
-	const loadedWikiComponent = useSuspenseQuery({
+	const loadedWikiComponent = useQuery({
 		queryKey: ["component", category, componentName],
 		queryFn: async () =>
 			await loadWikiComponent(category, componentName, component),
