@@ -99,7 +99,7 @@ export function HomePage() {
 				</Group>
 			</Stack>
 
-			<Group>
+			<Group justify="center">
 				{Object.entries(wiki).map(([category, components]) => (
 					<Button
 						key={category}
