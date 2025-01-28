@@ -13,6 +13,7 @@ import {
 	IconArrowLeft,
 	IconBrandReact,
 	IconBug,
+	IconSun,
 	IconX,
 } from "@tabler/icons-react";
 import { Link, useParams } from "react-router";
@@ -76,22 +77,27 @@ export function CategoryPage() {
 
 				<Group justify="space-between">
 					<Title>{category}</Title>
-					<Button
-						size="xs"
-						variant="default"
-						leftSection={
-							<ThemeIcon color="red" size="xs">
-								<IconBug />
-							</ThemeIcon>
-						}
-						component={Link}
-						to={
-							"https://github.com/willpinha/react-computer/issues/new?template=component-bug-report.yml"
-						}
-						target="_blank"
-					>
-						Report bug
-					</Button>
+					<Group>
+						<Button
+							size="xs"
+							variant="default"
+							leftSection={
+								<ThemeIcon color="red" size="xs">
+									<IconBug />
+								</ThemeIcon>
+							}
+							component={Link}
+							to={
+								"https://github.com/willpinha/react-computer/issues/new?template=component-bug-report.yml"
+							}
+							target="_blank"
+						>
+							Report bug
+						</Button>
+						<ActionIcon variant="default">
+							<IconSun />
+						</ActionIcon>
+					</Group>
 				</Group>
 
 				{Object.entries(wiki[category]).map(
