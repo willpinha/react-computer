@@ -1,4 +1,5 @@
 import {
+	ActionIcon,
 	Button,
 	Container,
 	Group,
@@ -6,8 +7,14 @@ import {
 	Text,
 	ThemeIcon,
 	Title,
+	Tooltip,
 } from "@mantine/core";
-import { IconArrowLeft, IconBrandReact, IconBug } from "@tabler/icons-react";
+import {
+	IconArrowLeft,
+	IconBrandReact,
+	IconBug,
+	IconX,
+} from "@tabler/icons-react";
 import { Link, useParams } from "react-router";
 import { wiki } from "../../lib/wiki";
 import { WikiComponentView } from "../wiki/WikiComponentView";
@@ -16,7 +23,25 @@ export function CategoryPage() {
 	const { category } = useParams();
 
 	if (!category || !wiki[category]) {
-		return "Category not found";
+		return (
+			<Group justify="center" align="center" h="100vh">
+				<Tooltip
+					label="Go back to categories"
+					withArrow
+					position="left"
+				>
+					<ActionIcon
+						variant="subtle"
+						color="gray"
+						component={Link}
+						to="/"
+					>
+						<IconX />
+					</ActionIcon>
+				</Tooltip>
+				<Text>Category not found</Text>
+			</Group>
+		);
 	}
 
 	const numComponents = Object.keys(wiki[category]).length;
