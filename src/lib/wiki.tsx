@@ -78,9 +78,17 @@ function buildWiki(): Wiki {
 }
 
 export async function loadWikiComponent(
+	category: string,
+	componentName: string,
 	component: WikiComponent
 ): Promise<LoadedWikiComponent> {
 	const Index = (await component.indexModule()).Index;
+
+	if (Index === undefined) {
+		throw new Error(
+			`Component ${category}/${componentName} must have an Index export`
+		);
+	}
 
 	const indexContent = (await component.indexContent()).default;
 

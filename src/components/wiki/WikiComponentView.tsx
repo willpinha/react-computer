@@ -22,7 +22,10 @@ import {
 	IconPinned,
 	IconRefresh,
 } from "@tabler/icons-react";
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import {
+	useSuspenseQuery,
+	UseSuspenseQueryResult,
+} from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { v4 as uuidv4 } from "uuid";
@@ -35,7 +38,7 @@ import {
 
 type ReactIconButtonProps = {
 	componentName: string;
-	loadedWikiComponent: UseQueryResult<LoadedWikiComponent>;
+	loadedWikiComponent: UseSuspenseQueryResult<LoadedWikiComponent>;
 };
 
 function ReactIconButton({
@@ -77,7 +80,7 @@ function getFileIcon(fileName: string) {
 }
 
 type WikiComponentCodeProps = {
-	loadedWikiComponent: UseQueryResult<LoadedWikiComponent>;
+	loadedWikiComponent: UseSuspenseQueryResult<LoadedWikiComponent>;
 };
 
 function WikiComponentCode({ loadedWikiComponent }: WikiComponentCodeProps) {
@@ -118,22 +121,12 @@ function WikiComponentCode({ loadedWikiComponent }: WikiComponentCodeProps) {
 }
 
 type WikiComponentPreviewProps = {
-	loadedWikiComponent: UseQueryResult<LoadedWikiComponent>;
+	loadedWikiComponent: UseSuspenseQueryResult<LoadedWikiComponent>;
 };
 
 function WikiComponentPreview({
 	loadedWikiComponent,
 }: WikiComponentPreviewProps) {
-	if (loadedWikiComponent.isError) {
-		console.error(loadedWikiComponent.error);
-
-		return (
-			<Text c="red" p="sm">
-				Error loading component
-			</Text>
-		);
-	}
-
 	if (loadedWikiComponent.isPending) {
 		return null;
 	}
@@ -158,9 +151,10 @@ export function WikiComponentView({
 	componentName,
 	component,
 }: WikiComponentViewProps) {
-	const loadedWikiComponent = useQuery({
+	const loadedWikiComponent = useSuspenseQuery({
 		queryKey: ["component", category, componentName],
-		queryFn: async () => await loadWikiComponent(component),
+		queryFn: async () =>
+			await loadWikiComponent(category, componentName, component),
 	});
 
 	const location = useLocation();
@@ -179,6 +173,10 @@ export function WikiComponentView({
 		}
 	}, [location.hash]);
 
+	function handleReset() {
+		setCurrentId(uuidv4());
+	}
+
 	return (
 		<Paper withBorder radius={0} ref={targetRef}>
 			<Stack gap={0}>
@@ -195,12 +193,12 @@ export function WikiComponentView({
 						<Text fw="bold">{componentName}</Text>
 					</Group>
 					<Group>
-						<Tooltip label="Reset component">
+						<Tooltip label="Reset component state">
 							<ActionIcon
 								size="xs"
 								variant="subtle"
 								color="gray"
-								onClick={() => setCurrentId(uuidv4())}
+								onClick={handleReset}
 							>
 								<IconRefresh />
 							</ActionIcon>
