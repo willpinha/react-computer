@@ -41,7 +41,7 @@ export function HomePage() {
 						</Text>
 					</Title>
 
-					<Text>
+					<Text ta="center">
 						You can find{" "}
 						<Badge variant="outline" size="xs" component="span">
 							{numComponents()}
@@ -102,6 +102,7 @@ export function HomePage() {
 			<Group>
 				{Object.entries(wiki).map(([category, components]) => (
 					<Button
+						key={category}
 						leftSection={<IconHash size={20} />}
 						rightSection={
 							<Text inherit c="dimmed" size="xs">
