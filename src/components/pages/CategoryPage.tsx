@@ -7,7 +7,7 @@ import {
 	ThemeIcon,
 	Title,
 } from "@mantine/core";
-import { IconArrowLeft, IconBrandReact } from "@tabler/icons-react";
+import { IconArrowLeft, IconBrandReact, IconBug } from "@tabler/icons-react";
 import { Link, useParams } from "react-router";
 import { wiki } from "../../lib/wiki";
 import { WikiComponentView } from "../wiki/WikiComponentView";
@@ -49,7 +49,25 @@ export function CategoryPage() {
 					</Group>
 				</Group>
 
-				<Title>{category}</Title>
+				<Group justify="space-between">
+					<Title>{category}</Title>
+					<Button
+						size="xs"
+						variant="default"
+						leftSection={
+							<ThemeIcon color="red" size="xs">
+								<IconBug />
+							</ThemeIcon>
+						}
+						component={Link}
+						to={
+							"https://github.com/willpinha/react-computer/issues/new?template=component-bug-report.yml"
+						}
+						target="_blank"
+					>
+						Report bug
+					</Button>
+				</Group>
 
 				{Object.entries(wiki[category]).map(
 					([componentName, component]) => (
