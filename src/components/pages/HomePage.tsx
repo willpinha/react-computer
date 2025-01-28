@@ -10,12 +10,12 @@ import {
 	Tooltip,
 } from "@mantine/core";
 import {
+	IconBook2,
 	IconBrandGithub,
 	IconBrandOpenSource,
 	IconHash,
 	IconHeartFilled,
 	IconSearch,
-	IconUsersGroup,
 } from "@tabler/icons-react";
 import { Link } from "react-router";
 import { numCategories, numComponents, wiki } from "../../lib/wiki";
@@ -42,7 +42,7 @@ export function HomePage() {
 					</Title>
 
 					<Text ta="center">
-						You can find{" "}
+						💻 You can find{" "}
 						<Badge variant="outline" size="xs" component="span">
 							{numComponents()}
 						</Badge>{" "}
@@ -72,13 +72,13 @@ export function HomePage() {
 							<IconBrandOpenSource />
 						</ActionIcon>
 					</Tooltip>
-					<Tooltip label="Contributors">
+					<Tooltip label="README" withArrow>
 						<ActionIcon
 							variant="default"
 							component={Link}
-							to="https://github.com/willpinha/react-computer/graphs/contributors"
+							to="https://github.com/willpinha/react-computer/blob/master/README.md"
 						>
-							<IconUsersGroup />
+							<IconBook2 />
 						</ActionIcon>
 					</Tooltip>
 					<Tooltip label="Repository" withArrow>

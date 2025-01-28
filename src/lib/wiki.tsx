@@ -40,7 +40,7 @@ function buildWiki(): Wiki {
 		query: "?raw",
 	});
 	const filesModules = import.meta.glob(
-		["../wiki/**/*.{tsx,module.css}", "!**/Index.tsx"],
+		["../wiki/**/*.{tsx,ts,module.css}", "!**/Index.tsx"],
 		{
 			query: "?raw",
 		}
