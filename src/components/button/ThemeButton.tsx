@@ -5,7 +5,10 @@ export function ThemeButton() {
 	const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
 	return (
-		<Tooltip label={colorScheme === "dark" ? "Light mode" : "Dark mode"}>
+		<Tooltip
+			label={colorScheme === "dark" ? "Light mode" : "Dark mode"}
+			withArrow
+		>
 			<ActionIcon onClick={toggleColorScheme} variant="default">
 				{colorScheme === "dark" ? <IconSun /> : <IconMoon />}
 			</ActionIcon>
