@@ -20,10 +20,12 @@ import {
 	IconCode,
 	IconEye,
 	IconPinned,
+	IconRefresh,
 } from "@tabler/icons-react";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
+import { v4 as uuidv4 } from "uuid";
 import sharedClasses from "../../css/shared.module.css";
 import {
 	LoadedWikiComponent,
@@ -167,6 +169,8 @@ export function WikiComponentView({
 
 	const { scrollIntoView, targetRef } = useScrollIntoView({ duration: 0 });
 
+	const [currentId, setCurrentId] = useState(uuidv4());
+
 	useEffect(() => {
 		if (location.hash === `#${componentName}`) {
 			scrollIntoView({
@@ -191,6 +195,16 @@ export function WikiComponentView({
 						<Text fw="bold">{componentName}</Text>
 					</Group>
 					<Group>
+						<Tooltip label="Reset component">
+							<ActionIcon
+								size="xs"
+								variant="subtle"
+								color="gray"
+								onClick={() => setCurrentId(uuidv4())}
+							>
+								<IconRefresh />
+							</ActionIcon>
+						</Tooltip>
 						<Tooltip label="View on GitHub">
 							<ActionIcon
 								size="xs"
@@ -233,6 +247,7 @@ export function WikiComponentView({
 				<Divider />
 				{currentTab === "preview" && (
 					<WikiComponentPreview
+						key={currentId}
 						loadedWikiComponent={loadedWikiComponent}
 					/>
 				)}

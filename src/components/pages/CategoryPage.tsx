@@ -1,5 +1,5 @@
-import { Anchor, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core";
-import { IconBrandReact, IconHash } from "@tabler/icons-react";
+import { Button, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core";
+import { IconArrowLeft, IconBrandReact } from "@tabler/icons-react";
 import { Link, useParams } from "react-router";
 import { wiki } from "../../lib/wiki";
 import { WikiComponentView } from "../wiki/WikiComponentView";
@@ -14,30 +14,27 @@ export function CategoryPage() {
 	const numComponents = Object.keys(wiki[category]).length;
 
 	return (
-		<Stack gap="xl" pb="lg">
-			<Stack px="lg" pt="lg">
-				<Group justify="space-between">
-					<Anchor component={Link} to="/" size="sm">
-						Go back to categories
-					</Anchor>
-
-					<Group gap="xs">
-						<ThemeIcon
-							color="#04D0F4"
-							size="xs"
-							variant="transparent"
-						>
-							<IconBrandReact />
-						</ThemeIcon>
-						<Text size="sm">{numComponents} components</Text>
-					</Group>
-				</Group>
+		<Stack gap="xl" p="lg">
+			<Group justify="space-between">
+				<Button
+					variant="subtle"
+					color="gray"
+					leftSection={<IconArrowLeft />}
+					component={Link}
+					to="/"
+				>
+					Go back to categories
+				</Button>
 
 				<Group gap="xs">
-					<IconHash />
-					<Title order={2}>{category}</Title>
+					<ThemeIcon color="#04D0F4" size="sm" variant="transparent">
+						<IconBrandReact />
+					</ThemeIcon>
+					<Text>{numComponents} components</Text>
 				</Group>
-			</Stack>
+			</Group>
+
+			<Title>{category}</Title>
 
 			{Object.entries(wiki[category]).map(
 				([componentName, component]) => (
