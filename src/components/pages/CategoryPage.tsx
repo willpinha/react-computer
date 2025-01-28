@@ -27,10 +27,12 @@ export function CategoryPage() {
 				</Button>
 
 				<Group gap="xs">
-					<ThemeIcon color="#04D0F4" size="sm" variant="transparent">
+					<ThemeIcon color="#04D0F4" size="xs" variant="transparent">
 						<IconBrandReact />
 					</ThemeIcon>
-					<Text>{numComponents} components</Text>
+					<Text fw="bold" size="sm">
+						{numComponents} components
+					</Text>
 				</Group>
 			</Group>
 
