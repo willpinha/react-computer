@@ -2,6 +2,7 @@ import {
 	ActionIcon,
 	Badge,
 	Button,
+	Container,
 	Group,
 	Image,
 	Stack,
@@ -125,25 +126,27 @@ export function HomePage() {
 				</Group>
 			</Stack>
 
-			<Group justify="center">
-				{Object.entries(wiki).map(([category, components]) => (
-					<Button
-						key={category}
-						leftSection={<IconHash size={20} />}
-						rightSection={
-							<Text inherit c="dimmed" size="xs">
-								{Object.keys(components).length}
-							</Text>
-						}
-						variant="default"
-						radius="lg"
-						component={Link}
-						to={`/categories/${category}`}
-					>
-						{category}
-					</Button>
-				))}
-			</Group>
+			<Container>
+				<Group justify="center">
+					{Object.entries(wiki).map(([category, components]) => (
+						<Button
+							key={category}
+							leftSection={<IconHash size={20} />}
+							rightSection={
+								<Text inherit c="dimmed" size="xs">
+									{Object.keys(components).length}
+								</Text>
+							}
+							variant="default"
+							radius="lg"
+							component={Link}
+							to={`/categories/${category}`}
+						>
+							{category}
+						</Button>
+					))}
+				</Group>
+			</Container>
 		</Stack>
 	);
 }
