@@ -88,7 +88,7 @@ export function CategoryPage() {
 							}
 							component={Link}
 							to={
-								"https://github.com/willpinha/react-computer/issues/new?template=component-bug-report.yml"
+								"https://github.com/willpinha/react.computer/issues/new"
 							}
 							target="_blank"
 						>
