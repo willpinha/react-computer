@@ -129,7 +129,7 @@ export function HomePage() {
 				</Group>
 			</Stack>
 
-			<Container>
+			<Container size="lg">
 				<Group justify="center">
 					{Object.entries(wiki).map(([category, components]) => (
 						<Button
