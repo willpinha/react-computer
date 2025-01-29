@@ -73,7 +73,6 @@ export function HomePage() {
 					</Title>
 
 					<Text ta="center">
-						💻 You can find{" "}
 						<Badge variant="outline" size="xs" component="span">
 							{numComponents()}
 						</Badge>{" "}
