@@ -1,15 +1,15 @@
-# Contributing to *react.computer*
+# ⚡ Contributing to _react.computer_
 
-Firstly, thank you for wanting to be part of this project! I believe that contributing to *react.computer* is important both to help
+Firstly, thank you for wanting to be part of this project! I believe that contributing to _react.computer_ is important both to help
 create the components and for you to learn more about React
 
 There are 3 ways you can contribute:
 
 -   Making a pull request creating or updating one or more components
--   Creating an issue pointing out a bug in *react.computer*
+-   Creating an issue pointing out a bug in _react.computer_
 -   Giving the repository a star! This is important to me because it shows that my work is being valued
 
-For a component to be considered accepted in *react.computer*, it must:
+For a component to be considered accepted in _react.computer_, it must:
 
 -   Be unique, both in style and functionality
 -   Not contain real people information (phone number, email, ...)
@@ -18,11 +18,11 @@ For a component to be considered accepted in *react.computer*, it must:
 -   Have clean and organized code, separated into files
 -   Be responsive on mobile
 
-## Guides
+## ⚡ Guides
 
 ### Running the project locally
 
-*react.computer* uses PNPM. It is the only package manager accepted for this project
+_react.computer_ uses PNPM. It is the only package manager accepted for this project
 
 ```
 pnpm i
@@ -38,17 +38,18 @@ Inside the component directory, there should be an `Index.tsx` file that exports
 
 ```tsx
 export function Index() {
-  return "Hello World";
+	return "Hello World";
 }
 ```
 
-By following the steps above, *react.computer* will automatically load the component. You can also create additional files alongside
+By following the steps above, _react.computer_ will automatically load the component. You can also create additional files alongside
 `Index.tsx` with the extensions `ts`, `tsx` and `module.css`
 
-> [!IMPORTANT]
-> New categories will not be accepted directly. To suggest a new category, create an issue explaining the category's use cases. If approved,
-> you can use it in *react.computer*
+## ⚡ Pull request rules
 
-> [!IMPORTANT]
-> Installation of new dependencies on *react.computer* will only be accepted if approved. Create an issue explaining the use cases
-> for the new dependency
+1. New categories will not be accepted directly. To suggest a new category, create an issue explaining
+   the category's use cases. If approved, you can use it in _react.computer_
+2. Installation of new dependencies on _react.computer_ will only be accepted if approved. Create an
+   issue explaining the use cases for the new dependency
+3. When creating components, each pull request must contain a single component. Pull requests with
+   multiple components will not be accepted
