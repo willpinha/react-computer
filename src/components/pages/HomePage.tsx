@@ -19,16 +19,19 @@ import {
 	IconHeartFilled,
 	IconSearch,
 } from "@tabler/icons-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { numCategories, numComponents, wiki } from "../../lib/wiki";
 import { ThemeButton } from "../button/ThemeButton";
 
 function SearchCategoriesButton() {
+	const navigate = useNavigate();
+
 	const actions: SpotlightActionData[] = Object.keys(wiki).map(
 		(category) => ({
 			id: category,
 			label: category,
 			leftSection: <IconHash size={20} />,
+			onClick: () => navigate(`/categories/${category}`),
 		})
 	);
 
