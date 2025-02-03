@@ -13,7 +13,6 @@ import {
 	Title,
 	Tooltip,
 } from "@mantine/core";
-import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
 import {
 	IconBook2,
 	IconBrandGithub,
@@ -22,42 +21,9 @@ import {
 	IconHeartFilled,
 	IconSearch,
 } from "@tabler/icons-react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { numCategories, numComponents, wiki } from "../../lib/wiki";
 import { ThemeButton } from "../button/ThemeButton";
-
-function SearchCategoriesButton() {
-	const navigate = useNavigate();
-
-	const actions: SpotlightActionData[] = Object.keys(wiki).map(
-		(category) => ({
-			id: category,
-			label: category,
-			leftSection: <IconHash size={20} />,
-			onClick: () => navigate(`/categories/${category}`),
-		})
-	);
-
-	return (
-		<>
-			<Tooltip label="Search categories" withArrow>
-				<ActionIcon variant="default" onClick={spotlight.open}>
-					<IconSearch />
-				</ActionIcon>
-			</Tooltip>
-
-			<Spotlight
-				highlightQuery
-				actions={actions}
-				nothingFound="No categories found"
-				searchProps={{
-					leftSection: <IconSearch size={20} />,
-					placeholder: "Search categories",
-				}}
-			/>
-		</>
-	);
-}
 
 export function HomePage() {
 	return (
